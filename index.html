@@ -79,19 +79,22 @@
             outline: 2px solid #f9e29c;
             outline-offset: -4px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1;
         }
         .section-name {
             font-family: 'Great Vibes', cursive;
             font-size: clamp(1.5rem, 6vw, 4rem);
             color: var(--marun);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
         .main-name {
             font-weight: bold;
             font-size: clamp(1rem, 4vw, 2rem);
             color: var(--marun);
+            z-index: 1;
         }
-        .parent-name { font-size: 0.9rem; color: #666; font-style: italic; }
+        .parent-name { font-size: 0.9rem; color: #666; font-style: italic; z-index: 1;}
 
         /* Countdown */
         .countdown-container { display: flex; justify-content: center; gap: 10px; }
@@ -220,6 +223,35 @@
             flex-direction: column;
         }
 
+.card-mempelai {
+    background: var(--putih-gading);
+    padding: 60px 40px; 
+    border-radius: 8px; /* Sharper corners look more like a real frame */
+    border: 1px solid var(--emas); 
+    box-shadow: 
+        0px 15px 50px rgba(0, 0, 0, 0.1),
+        inset 0 0 20px rgba(212, 175, 55, 0.05); /* Subtle inner glow */
+    position: relative;
+    overflow: hidden;
+}
+
+.corner-svg {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    fill: var(--emas);
+    color: var(--emas); /* Ensures the stroke matches the fill */
+    pointer-events: none;
+    z-index: 1;
+}
+
+.top-left     { top: 1px; left: 1px; }
+.top-right    { top: 1px; right: 1px; transform: scaleX(-1); }
+.bottom-left  { bottom: 1px; left: 1px; transform: scaleY(-1); }
+.bottom-right { bottom: 1px; right: 1px; transform: scale(-1); }
+
+
+
         .ayah-container {
             position: relative;
             display: inline-flex;
@@ -232,6 +264,11 @@
             position: absolute;
             font-size: 0.5em; /* Makes the number small enough to fit inside */
             margin-top: 2px;  /* Adjust vertically to center it perfectly */
+        }
+
+        .watermark-div {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><text y='40' fill='rgba(0,0,0,0.1)' font-size='20'>🌸</text></svg>");
+            background-repeat: repeat;
         }
     </style>
 </head>
@@ -246,7 +283,7 @@
             <p style="letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Undangan Pernikahan</p>
             <div class="nama-vertikal text-4xl font-serif my-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mayasitthah<br>&<br>Fajar</div>
             <p class="mb-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Kepada Bapak/Ibu/Saudara/i</p>
-            <button class="btn" onclick="bukaUndangan()" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">BUKA UNDANGAN</button>
+            <button class="btn" onclick="bukaUndangan()" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); margin-top: 15rem;">BUKA UNDANGAN</button>
         </div>
     </div>
 
@@ -263,9 +300,40 @@
     </div>
 
     <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section">
+        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+
+
+
+<svg class="corner-svg top-left" viewBox="0 0 100 100">
+        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
+    </svg>
+
+    <svg class="corner-svg top-right" viewBox="0 0 100 100">
+        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
+    </svg>
+
+    <svg class="corner-svg bottom-left" viewBox="0 0 100 100">
+        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
+    </svg>
+
+    <svg class="corner-svg bottom-right" viewBox="0 0 100 100">
+        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
+    </svg>
+
+    <div class="relative z-10">
+       </div>
+
+
+
+
+
             <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mempelai</div>
-            <p class="text-justify text-sm text-[#934444] h-auto mx-auto block">Besar niat di dalam hati, kami ingin menyatukan dua hati dalam ikatan abadi. Kehadiran serta doa restu Tuan dan Puan sekalian adalah seri yang akan menyempurnakan hari istimewa kami ini.</p>
+            <p dir="rtl" class="text-2xl text-[#934444] font-serif mb-8 leading-loose" style="z-index: 1;">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
+            <p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;">Besar niat di dalam hati, kami ingin menyatukan dua hati dalam ikatan abadi. Kehadiran serta doa restu Tuan dan Puan sekalian adalah seri yang akan menyempurnakan hari istimewa kami ini.</p>
             <div class="desktop-row flex flex-col items-center gap-6">
                 <img src="foto nining A.webp" alt="Maya" class="profile-img">
                 <div class="name-container flex flex-col text-center">
@@ -274,9 +342,10 @@
                 </div>
             </div>
 
-            <div class="relative flex items-center justify-center w-full">
-                <div class="absolute w-full border-t border-gray-200"></div>
-                <span class="relative bg-white px-6 font-serif text-5xl text-[#D4AF37] italic">&</span>
+            <div class="flex items-center justify-center w-full">
+                <div class="flex-grow border-t border-gray-200"></div>
+                <span class="px-6 font-serif text-5xl text-[#D4AF37] italic">&</span>
+                <div class="flex-grow border-t border-gray-200"></div>
             </div>
 
             <div class="desktop-row flex flex-col items-center gap-6">
@@ -310,6 +379,13 @@
                 <div class="absolute w-full border-t border-gray-200"></div>
             </div>
 
+
+
+
+
+
+
+
             <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Rangkaian Acara</div>
             <div class="acara-box w-full">
                 <div class="acara-item">
@@ -327,7 +403,7 @@
                     </div>
                     <div class="w-full flex items-start gap-3 text-sm">
                         <i class="fas fa-map-marker-alt text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>Jl. Rantau 3, Pekanbaru</span>
+                        <span>Jl. Rantau 3 No. 3A, Pekanbaru</span>
                     </div>
                 </div>
 
@@ -346,7 +422,7 @@
                     </div>
                     <div class="w-full flex items-start gap-3 text-sm">
                         <i class="fas fa-map-marker-alt text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>Jl. Rantau 3, Pekanbaru</span>
+                        <span>Jl. Rantau 3 No. 3A, Pekanbaru</span>
                     </div>
                 </div>
             </div>
@@ -356,7 +432,7 @@
     <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
         <div class="card-section">
             <p class="text-[#934444] text-center">
-                <b>Lokasi Rumah Kami:</b><br>Jl. Rantau 3 RT. 03 RW. 03, Simpang 3, Bukit Raya, Pekanbaru
+                <b>Lokasi Rumah Kami:</b><br>Jl. Rantau 3 No. 3A, RT. 03 RW. 03, Simpang 3, Bukit Raya, Pekanbaru
             </p>
             <div class="map-responsive">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.42169874718!2d101.4635064695484!3d0.46522924103154156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5af11694fce1b%3A0xdf5aef4a8404292d!2sJl.%20Rantau%20III%2010-18%2C%20Simpang%20Tiga%2C%20Kec.%20Bukit%20Raya%2C%20Kota%20Pekanbaru%2C%20Riau%2028289!5e0!3m2!1sen!2sid!4v1770580295098!5m2!1sen!2sid" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -365,7 +441,7 @@
         </div>
     </div>
 
-    <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
+    <!-- <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
         <div class="card-section">
                 <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Momen Indah</div>
                 <div class="gallery-grid">
@@ -375,7 +451,7 @@
                     <img src="foto momen D.webp" alt="Momen 4">
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -540,6 +616,38 @@
             const text = encodeURIComponent("Halo Maya & Fajar, saya ingin mengonfirmasi kehadiran di pernikahan kalian...");
             window.open(`https://wa.me/6281371744048?text=${text}`);
         }
+
+
+
+
+// 1. Use .watermark-container (the dot means class)
+  const containers = document.querySelectorAll('.watermark-container');
+  const flowerIcons = ['🌸', '🌼', '🌻', '🌺', '🌷'];
+  const numberOfFlowers = 500; 
+
+  // 2. We must loop through EVERY container found
+  containers.forEach(container => {
+    
+    for (let i = 0; i < numberOfFlowers; i++) {
+      const span = document.createElement('span');
+      span.innerText = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
+      
+      // Styling the watermark
+      span.style.position = 'absolute';
+      span.style.fontSize = (Math.random() * 20 + 20) + 'px'; 
+      span.style.opacity = '0.15'; 
+      span.style.zIndex = '0';
+      span.style.pointerEvents = 'none';
+      span.style.userSelect = 'none';
+
+      // Random position
+      span.style.top = Math.random() * 90 + '%';
+      span.style.left = Math.random() * 90 + '%';
+      span.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+      container.appendChild(span);
+    }
+  });
     </script>
 </body>
 </html>
