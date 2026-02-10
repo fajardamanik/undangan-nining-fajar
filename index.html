@@ -1,465 +1,501 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Undangan Pernikahan Maya & Fajar</title>
-
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Great+Vibes&family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        :root {
-            --emas: #D4AF37;
-            --marun: #934444;
-            --putih-gading: #FFFFF0;
-        }
-
-        /* Base Styles */
-        body {
-            background-color: var(--marun);
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
-            padding-top: 70px;
-            padding-bottom: 70px;
-        }
-
-        /* Floating Borders */
-        .pucuk-border {
-            width: 100%;
-            height: 60px;
-            background: url('pucuk rebung.png') repeat-x;
-            background-size: auto 100%;
-            z-index: 1000;
-            position: fixed;
-            left: 0;
-            z-index: 1;
-        }
-        .pucuk-atas { top: 0; transform: scaleY(-1); z-index: 1;}
-        .pucuk-bawah { bottom: 0; z-index: 1;}
-
-        /* Overlay System */
-        #overlay-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 1s ease-in-out;
-        }
-        #overlay-content {
-            width: 85%; height: 80%;
-            background: linear-gradient(rgba(181, 254, 254, 0.7), rgba(74, 4, 4, 0.7)), url('foto overlay.webp') center/cover;
-            border: 4px solid var(--emas);
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        .overlay-hidden {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Profile & Typography */
-        .profile-img {
-            width: 200px; height: 200px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 3px solid var(--emas);
-            outline: 2px solid #f9e29c;
-            outline-offset: -4px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            z-index: 1;
-        }
-        .section-name {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.5rem, 6vw, 4rem);
-            color: var(--marun);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            z-index: 1;
-        }
-        .main-name {
-            font-weight: bold;
-            font-size: clamp(1rem, 4vw, 2rem);
-            color: var(--marun);
-            z-index: 1;
-        }
-        .parent-name { font-size: 0.9rem; color: #666; font-style: italic; z-index: 1;}
-
-        /* Countdown */
-        .countdown-container { display: flex; justify-content: center; gap: 10px; }
-        .countdown-item {
-            background: var(--marun);
-            padding: 10px;
-            border-radius: 8px;
-            border: 2px solid var(--emas);
-            min-width: 70px;
-            text-align: center;
-            color: var(--emas);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        .countdown-item span { display: block; font-size: 1.5rem; font-weight: bold; }
-
-        /* Acara Boxes */
-        .acara-box { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
-        .acara-item {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            border: 2px solid var(--emas);
-            width: 100%;
-            max-width: 320px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            z-index: 1;
-        }
-        .icon-wrapper { width: 60px; height: 60px; }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .gallery-grid img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 2px solid var(--emas);
-        }
-
-        /* Components */
-        .map-responsive {
-            border-radius: 15px;
-            overflow: hidden;
-            border: 2px solid var(--emas);
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 8 / 6;
-            margin: 20px auto;
-            z-index: 1;
-        }
-        .btn {
-            background: var(--emas);
-            color: white;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: 0.3s;
-            display: block;
-            margin: 15px auto;
-            width: 100%;
-            max-width: 250px;
-            text-align: center;
-            cursor: pointer;
-            z-index: 1;
-        }
-        .btn:hover { background: #b8952d; transform: scale(1.05); z-index: 1;}
-
-        /* RSVP & Comments */
-
-        .rsvp-form {
-        }
-
-        .rsvp-form input,
-        .rsvp-form select,
-        .rsvp-form textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: inherit;
-            z-index: 1;
-        }
-
-        #daftar-ucapan {
-            width: 100%;
-            max-height: 400px;
-            overflow-y: auto;
-            text-align: left;
-            margin-top: 20px;
-            z-index: 1;
-        }
-        .item-ucapan {
-            background: #f8f8f8;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--marun);
-            z-index: 1;
-        }
-
-        /* Desktop Layout */
-        @media (min-width: 100px) {
-            /* Starting state: Hidden and shifted 100px to the left */
-.desktop-row {
-    opacity: 0;
-    transform: translateX(-50px); /* Slide from left */
-    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform, opacity;
-}
-
-/* If you want the second one to slide from the right, we can do that in HTML/CSS later */
-.slide-left { transform: translateX(-100px); }
-.slide-right { transform: translateX(100px); }
-
-/* Both return to 0 when 'appear' is added */
-.desktop-row.appear {
-    transform: translateX(0);
-    opacity: 1;
-}
-        }
-
-        .card-section {
-            background: var(--putih-gading);
-            padding: 20px 10px;
-            border-radius: 15px;
-            border: 2px solid var(--emas);
-            outline: 2px solid #f9e29c;
-            outline-offset: -4px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            gap: 1rem;
-            display: flex;
-            flex-direction: column;
-        }
-
-.card-mempelai {
-    background: var(--putih-gading);
-    padding: 60px 40px; 
-    border-radius: 8px; /* Sharper corners look more like a real frame */
-    border: 1px solid var(--emas); 
-    box-shadow: 
-        0px 15px 50px rgba(0, 0, 0, 0.1),
-        inset 0 0 20px rgba(212, 175, 55, 0.05); /* Subtle inner glow */
-    position: relative;
-    overflow: hidden;
-}
-
-.corner-svg {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    fill: var(--emas);
-    color: var(--emas); /* Ensures the stroke matches the fill */
-    pointer-events: none;
-    z-index: 1;
-}
-
-.top-left     { top: 1px; left: 1px; }
-.top-right    { top: 1px; right: 1px; transform: scaleX(-1); }
-.bottom-left  { bottom: 1px; left: 1px; transform: scaleY(-1); }
-.bottom-right { bottom: 1px; right: 1px; transform: scale(-1); }
-
-
-
-        .ayah-container {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-family: serif; /* Use your Arabic font here */
-        }
-
-        .ayah-number {
-            position: absolute;
-            font-size: 0.5em; /* Makes the number small enough to fit inside */
-            margin-top: 2px;  /* Adjust vertically to center it perfectly */
-        }
-
-        .watermark-div {
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><text y='40' fill='rgba(0,0,0,0.1)' font-size='20'>🌸</text></svg>");
-            background-repeat: repeat;
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Undangan Pernikahan Maya & Fajar</title>
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Great+Vibes&family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+	:root {
+		--marun: #934444;
+		--marun-muda: #C27A7A;
+		--putih-gading: #FFFFF0;
+		--hijau-daun: #719B6E;
+		--emas: #D4AF37;
+		/* Emas klasik (Metallic Gold) */
+		--emas-muda: #F9E29C;
+		/* Emas pucat untuk highlight */
+		--emas-tua: #AA8419;
+		/* Emas gelap untuk bayangan/shadow */
+		/* Gradasi untuk efek mengkilap (Gunakan di background) */
+		--gradient-emas: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA8419);
+		--background: var(--emas-muda);
+		--background-card: var(--putih-gading);
+		--background-countdown: var(--putih-gading);
+		--border: var(--marun);
+		--border-overlay: var(--emas-muda);
+		--border-overlay-outline: var(--emas);
+		--border-outline: var(--marun-muda);
+		--corner-svg: var(--emas-tua);
+		--sisi-komen: var(--hijau-daun);
+	}
+	/* Base Styles */
+	
+	body {
+		background-color: var(--background);
+		font-family: 'Poppins', sans-serif;
+		overflow-x: hidden;
+		padding-top: 70px;
+		padding-bottom: 70px;
+	}
+	/* Lock the scroll when the page loads */
+	
+	body.overflow-hidden {
+		overflow: hidden;
+		height: 100vh;
+	}
+	/* Floating Borders */
+	
+	.pucuk-border {
+		width: 100%;
+		height: 60px;
+		/* Ganti repeat-x menjadi round */
+		background: url('pucuk rebung-marun.svg') round;
+		/*background: url('pucuk rebung-emas.svg') round; */
+		/* Pastikan background-size disesuaikan */
+		background-size: auto 100%;
+		position: fixed;
+		left: 0;
+		/* Hapus salah satu z-index, gunakan yang paling tinggi untuk border */
+		z-index: 1000;
+	}
+	
+	.pucuk-atas {
+		top: 0;
+		transform: scaleY(-1);
+	}
+	
+	.pucuk-bawah {
+		bottom: 0;
+	}
+	/* Overlay System */
+	
+	#overlay-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.85);
+		z-index: 9999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: 1s ease-in-out;
+	}
+	
+	#overlay-content {
+		width: 85%;
+		height: 80%;
+		background: linear-gradient(rgba(181, 254, 254, 0.7), rgba(74, 4, 4, 0.7)), url('foto overlay.webp') center/cover;
+		border: 4px solid var(--border-overlay);
+		outline: 1px solid var(--border-overlay-outline);
+		border-radius: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		text-align: center;
+		padding: 20px;
+	}
+	
+	.overlay-hidden {
+		transform: translateY(-100%);
+		opacity: 0;
+		pointer-events: none;
+	}
+	/* Profile & Typography */
+	
+	.profile-img {
+		width: 200px;
+		height: 200px;
+		object-fit: cover;
+		border-radius: 50%;
+		border: 3px solid var(--border);
+		outline: 2px solid var(--border-outline);
+		outline-offset: -4px;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+		z-index: 1;
+	}
+	
+	.section-name {
+		font-family: 'Great Vibes', cursive;
+		font-size: clamp(1.5rem, 6vw, 4rem);
+		color: var(--marun);
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+		z-index: 1;
+	}
+	
+	.main-name {
+		font-weight: bold;
+		font-size: clamp(1rem, 4vw, 2rem);
+		color: var(--marun);
+		z-index: 1;
+	}
+	
+	.parent-name {
+		font-size: 0.9rem;
+		color: #666;
+		font-style: italic;
+		z-index: 1;
+	}
+	/* Countdown */
+	
+	.countdown-container {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+	}
+	
+	.countdown-item {
+		background: var(--background-countdown);
+		padding: 10px;
+		border-radius: 8px;
+		border: 2px solid var(--border);
+		min-width: 70px;
+		text-align: center;
+		color: var(--border);
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+	}
+	
+	.countdown-item span {
+		display: block;
+		font-size: 1.5rem;
+		font-weight: bold;
+	}
+	/* Acara Boxes */
+	
+	.acara-box {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+	
+	.acara-item {
+		background: white;
+		padding: 25px;
+		border-radius: 20px;
+		border: 2px solid var(--border);
+		outline: 2px solid var(--border-outline);
+		width: 100%;
+		max-width: 320px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		z-index: 1;
+	}
+	
+	.icon-wrapper {
+		width: 60px;
+		height: 60px;
+	}
+	
+	.gallery-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px;
+	}
+	
+	.gallery-grid img {
+		width: 100%;
+		aspect-ratio: 1/1;
+		object-fit: cover;
+		border-radius: 10px;
+		border: 2px solid var(--border);
+	}
+	/* Components */
+	
+	.map-responsive {
+		border-radius: 15px;
+		overflow: hidden;
+		border: 2px solid var(--border);
+		width: 100%;
+		max-width: 800px;
+		aspect-ratio: 8 / 6;
+		margin: 20px auto;
+		z-index: 1;
+	}
+	
+	.btn {
+		background: var(--border);
+		color: white;
+		padding: 14px 30px;
+		border-radius: 50px;
+		font-weight: bold;
+		transition: 0.3s;
+		display: block;
+		margin: 15px auto;
+		width: 100%;
+		max-width: 250px;
+		text-align: center;
+		cursor: pointer;
+		z-index: 1;
+	}
+	
+	.btn:hover {
+		background: #b8952d;
+		transform: scale(1.05);
+		z-index: 1;
+	}
+	/* RSVP & Comments */
+	
+	.rsvp-form {}
+	
+	.rsvp-form input,
+	.rsvp-form select,
+	.rsvp-form textarea {
+		width: 100%;
+		padding: 12px;
+		margin: 10px 0;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		font-family: inherit;
+		z-index: 1;
+	}
+	
+	#daftar-ucapan {
+		width: 100%;
+		max-height: 400px;
+		overflow-y: auto;
+		text-align: left;
+		margin-top: 20px;
+		z-index: 1;
+	}
+	
+	.item-ucapan {
+		background: #f8f8f8;
+		padding: 15px;
+		border-radius: 12px;
+		margin-bottom: 15px;
+		border-left: 4px solid var(--marun);
+		z-index: 1;
+	}
+	/* Desktop Layout */
+	
+	@media (min-width: 100px) {
+		/* Starting state: Hidden and shifted 100px to the left */
+		.desktop-row {
+			opacity: 0;
+			transform: translateX(-50px);
+			/* Slide from left */
+			transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+			will-change: transform, opacity;
+		}
+		/* If you want the second one to slide from the right, we can do that in HTML/CSS later */
+		.slide-left {
+			transform: translateX(-100px);
+		}
+		.slide-right {
+			transform: translateX(100px);
+		}
+		/* Both return to 0 when 'appear' is added */
+		.desktop-row.appear {
+			transform: translateX(0);
+			opacity: 1;
+		}
+	}
+	
+	.card-section {
+		background: var(--background-card);
+		padding: 20px 10px;
+		border-radius: 15px;
+		border: 2px solid var(--border);
+		outline: 2px solid var(--border-outline);
+		outline-offset: -4px;
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+		text-align: center;
+		gap: 1rem;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.card-mempelai {
+		background: var(--background-card);
+		padding: 60px 40px;
+		border-radius: 8px;
+		/* Sharper corners look more like a real frame */
+		border: 1px solid var(--border);
+		box-shadow: 0px 15px 50px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(212, 175, 55, 0.05);
+		/* Subtle inner glow */
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.corner-svg {
+		position: absolute;
+		width: 80px;
+		height: 80px;
+		fill: var(--corner-svg);
+		color: var(--corner-svg);
+		/* Ensures the stroke matches the fill */
+		pointer-events: none;
+		z-index: 1;
+	}
+	
+	.top-left {
+		top: 1px;
+		left: 1px;
+	}
+	
+	.top-right {
+		top: 1px;
+		right: 1px;
+		transform: scaleX(-1);
+	}
+	
+	.bottom-left {
+		bottom: 1px;
+		left: 1px;
+		transform: scaleY(-1);
+	}
+	
+	.bottom-right {
+		bottom: 1px;
+		right: 1px;
+		transform: scale(-1);
+	}
+	
+	.ayah-container {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-family: serif;
+		/* Use your Arabic font here */
+	}
+	
+	.ayah-number {
+		position: absolute;
+		font-size: 0.5em;
+		/* Makes the number small enough to fit inside */
+		margin-top: 2px;
+		/* Adjust vertically to center it perfectly */
+	}
+	
+	.watermark-div {
+		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80'><text y='40' fill='rgba(0,0,0,0.1)' font-size='20'>🌸</text></svg>");
+		background-repeat: repeat;
+	}
+	</style>
 </head>
 
-<body>
-     <audio id="mySong" loop>
-        <source src="Track 01.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="overlay-container">
-        <div id="overlay-content" data-aos="zoom-in">
-            <p style="letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Undangan Pernikahan</p>
-            <div class="nama-vertikal text-4xl font-serif my-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mayasitthah<br>&<br>Fajar</div>
-            <p class="mb-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Kepada Bapak/Ibu/Saudara/i</p>
-            <button class="btn" onclick="bukaUndangan()" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); margin-top: 15rem;">BUKA UNDANGAN</button>
-        </div>
-    </div>
-
-    <div class="pucuk-border pucuk-atas"></div>
-
-    <div class="max-w-5xl mx-auto px-6" data-aos="fade-up">
-        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ</p>
-            <p dir="rtl" class="text-[#934444] font-serif mb-8" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةًۗ اِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ لِّقَوْمٍ يَّتَفَكَّرُوْنَ<span class="ayah-container"><span class="ayah-symbol">۝</span><span class="ayah-number">٢١</span></span></p>
-            <p class="text-sm italic text-[#934444] leading-relaxed" style="z-index: 1;">
-                "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..." (QS. Ar-Rum : 21)
-            </p>
-        </div>
-    </div>
-
-    <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-
-
-
-<svg class="corner-svg top-left" viewBox="0 0 100 100">
-        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
-        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
-    </svg>
-
-    <svg class="corner-svg top-right" viewBox="0 0 100 100">
-        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
-        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
-    </svg>
-
-    <svg class="corner-svg bottom-left" viewBox="0 0 100 100">
-        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
-        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
-    </svg>
-
-    <svg class="corner-svg bottom-right" viewBox="0 0 100 100">
-        <path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
-        <path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" />
-    </svg>
-
-    <div class="relative z-10">
-       </div>
-
-
-
-
-
-            <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mempelai</div>
-            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
-            <p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;">Besar niat di dalam hati, kami ingin menyatukan dua hati dalam ikatan abadi. Kehadiran serta doa restu Tuan dan Puan sekalian adalah seri yang akan menyempurnakan hari istimewa kami ini.</p>
-            
-
-            <div class="desktop-row slide-right flex flex-col items-center gap-6">
-                <img src="foto nining A.webp" alt="Maya" class="profile-img">
-                <div class="name-container flex flex-col text-center">
-                    <div class="main-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mayasitthah Ramaningsih, S.T</div>
-                    <div class="parent-name">Putri dari Alm. Bapak Syarifuddin & Ibu Ismaidah</div>
-                </div>
-            </div>
-
-            <div class="flex items-center justify-center w-full" style="z-index: 1;">
-                <div class="flex-grow border-t border-gray-200"></div>
-                <span class="px-6 font-serif text-5xl text-[#D4AF37] italic">&</span>
-                <div class="flex-grow border-t border-gray-200"></div>
-            </div>
-
-            <div class="desktop-row slide-left flex flex-col items-center gap-6">
-                <div class="name-container flex flex-col text-center">
-                    <div class="main-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Fajar Raymond Damanik, S.T</div>
-                    <div class="parent-name">Putra dari Bapak Lamsir Damanik & Ibu Posmauli br. Naibaho</div>
-                </div>
-                <img src="foto fajar A.webp" alt="Fajar" class="profile-img order-1 lg:order-2">
-            </div>
-        </div>
-    </div>
-
-    <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-            <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Menuju Hari Bahagia</div>
-            <img src="janur.png" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur">
-            <p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;">
-                Tiada yang lebih indah selain dari hikmah yang tersirat dalam perjalanan kami. Syukur alhamdulillah, atas izin Allah Subhanahu Wa Ta'ala, kami dipertemukan dalam saat dan keadaan yang paling sebaik-baiknya menurut kehendak-Nya.
-            </p>
-
-            <div class="main-name">Sabtu, 28 Maret 2026</div>
-
-            <div class="countdown-container" style="z-index: 1;">
-                <div class="countdown-item"><span id="days">00</span><small>Hari</small></div>
-                <div class="countdown-item"><span id="hours">00</span><small>Jam</small></div>
-                <div class="countdown-item"><span id="minutes">00</span><small>Menit</small></div>
-                <div class="countdown-item"><span id="seconds">00</span><small>Detik</small></div>
-            </div>
-
-            <div class="relative flex items-center justify-center w-full">
-                <div class="absolute w-full border-t border-gray-200"></div>
-            </div>
-
-
-
-
-
-
-
-
-            <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Rangkaian Acara</div>
-            <div class="acara-box w-full">
-                <div class="acara-item">
-                    <div class="icon-wrapper">
-                        <svg viewBox="0 0 512 512" style="fill: var(--marun);"><path d="M354.079,176.934c-37.031,0-71.12,12.818-98.079,34.241c-26.959-21.424-61.048-34.241-98.079-34.241 C70.842,176.934,0,247.777,0,334.855s70.842,157.921,157.921,157.921c37.031,0,71.12-12.818,98.079-34.241 c26.959,21.424,61.048,34.241,98.079,34.241c87.079,0,157.921-70.843,157.921-157.921S441.158,176.934,354.079,176.934z M157.922,459.384c-68.667,0-124.531-55.864-124.531-124.53c0-68.665,55.864-124.528,124.53-124.528 c27.719,0,53.349,9.108,74.064,24.482c-22.377,27.258-35.826,62.11-35.826,100.046c0,37.937,13.45,72.789,35.827,100.047 C211.272,450.276,185.641,459.384,157.922,459.384z M229.55,334.855c0-28.883,9.886-55.5,26.45-76.648 c16.563,21.148,26.45,47.764,26.45,76.648s-9.887,55.5-26.45,76.648C239.437,390.354,229.55,363.737,229.55,334.855z M354.079,459.384c-27.719,0-53.35-9.108-74.064-24.483c22.377-27.258,35.827-62.11,35.827-100.047 c0-37.936-13.449-72.789-35.826-100.046c20.714-15.375,46.345-24.483,74.064-24.483c68.665,0,124.53,55.864,124.53,124.528 C478.609,403.521,422.745,459.384,354.079,459.384z"/> <path d="M221.441,150.234c10.507,8.127,24.863,17.46,25.469,17.853l9.09,5.9l9.09-5.9c0.606-0.394,14.96-9.726,25.469-17.853 c24.203-18.719,51.985-44.085,51.985-74.342c0-31.246-25.421-56.667-56.667-56.667c-10.651,0-20.988,3.013-29.876,8.528 c-8.888-5.516-19.224-8.528-29.876-8.528c-31.246,0-56.667,25.421-56.667,56.667 C169.456,106.149,197.238,131.515,221.441,150.234z M226.124,52.616c6.635,0,12.977,2.853,17.399,7.826L256,74.477l12.477-14.034 c4.422-4.973,10.764-7.826,17.399-7.826c12.834,0,23.276,10.441,23.276,23.276c0,11.777-13.129,27.903-39.022,47.929 c-4.383,3.389-9.694,7.131-14.13,10.171c-4.437-3.039-9.748-6.781-14.13-10.171c-25.893-20.026-39.022-36.152-39.022-47.929 C202.848,63.058,213.289,52.616,226.124,52.616z"/></svg>
-                    </div>
-                    <h4 class="font-bold text-lg">Akad Nikah</h4>
-                    <div class="w-full flex items-start gap-3 text-sm">
-                        <i class="fas fa-calendar-alt text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>Sabtu, 28 Maret 2026</span>
-                    </div>
-                    <div class="w-full flex items-start gap-3 text-sm">
-                        <i class="fas fa-clock text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>08.00 WIB</span>
-                    </div>
-                    <div class="w-full flex items-start gap-3 text-sm">
-                        <i class="fas fa-map-marker-alt text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>Jl. Rantau 3 No. 3A, Pekanbaru</span>
-                    </div>
-                </div>
-
-                <div class="acara-item">
-                    <div class="icon-wrapper">
-                        <svg viewBox="0 0 480 480" style="fill: var(--marun);"><path d="M382.884,297.066c0.438-0.404,0.871-0.815,1.299-1.236c10.374-10.202,16.087-23.833,16.087-38.382V230 c0-27.57-22.43-50-50-50h-28.412c-16.129,0-29.25,13.122-29.25,29.25v47.477c0,13.898,5.235,26.666,13.814,36.35 c-6.854,2.128-13.081,6.083-17.96,11.54l-36.684,35.69c-0.191,0.187-0.376,0.381-0.553,0.583 c-2.285,2.613-5.587,4.111-9.059,4.111c-3.472,0-6.773-1.498-9.059-4.111c-0.271-0.31-0.561-0.602-0.868-0.876l-39.525-35.275 c-5.181-5.656-12.317-9.1-19.93-9.658c4.936-10.048,7.708-21.34,7.709-33.27l0.002-23.223 c0.001-14.031-5.462-27.222-15.383-37.144c-9.921-9.922-23.111-15.386-37.143-15.386h-1.1c-29.801,0-54.045,24.148-54.045,53.831 c0,24.8-11.107,47.91-30.474,63.403l-8.366,6.693c-5.205,4.165-7.143,10.92-4.937,17.211c2.207,6.29,7.94,10.355,14.606,10.355 h20.68c-1.561,3.504-2.92,7.162-4.074,10.961L33.37,437.04c-3.385,11.143-1.43,23.54,5.104,32.352 C43.475,476.133,50.733,480,58.392,480h125.572c7.657,0,14.916-3.867,19.915-10.609c6.533-8.812,8.489-21.208,5.104-32.352 l-24.282-79.945c-1.605-5.285-7.191-8.266-12.475-6.662c-5.284,1.605-8.268,7.19-6.662,12.475l24.282,79.945 c1.769,5.824,0.253,11.543-2.034,14.628c-0.697,0.941-2.126,2.521-3.849,2.521H58.392c-1.723,0-3.151-1.579-3.849-2.521 c-2.287-3.084-3.803-8.804-2.033-14.628l26.889-88.528c1.863-6.134,4.386-11.756,7.521-16.773h17.827 c21.055,0,40.13-8.634,53.872-22.55h11.972c2.884,0,5.627,1.245,7.526,3.415c0.271,0.31,0.561,0.602,0.867,0.876l39.521,35.271 c6.063,6.642,14.646,10.438,23.661,10.438c9.093,0,17.749-3.863,23.819-10.613l36.689-35.696 c0.191-0.187,0.376-0.381,0.552-0.582c3.799-4.341,9.285-6.831,15.052-6.831h28.164c0.002,0,0.01,0,0.015,0h15.704 c5.818,0,11.144,2.402,14.994,6.764s5.573,9.943,4.842,15.801l-5.913,50.812l-27.791,13.896l-26.178-13.089l-3.77-31.646 c-0.653-5.484-5.631-9.402-11.112-8.747c-5.484,0.653-9.4,5.628-8.747,11.112l12.661,106.299 c1.249,9.987,9.781,17.519,19.846,17.519h36.324c10.066,0,18.598-7.532,19.854-17.604l14.681-126.156 c1.423-11.379-2.114-22.836-9.704-31.433C389.443,301.741,386.313,299.142,382.884,297.066z M160.494,261.809 c-0.003,30.736-25.012,55.741-55.747,55.741h-1.833c13.804-11.025,24.729-26.091,30.965-43.871 c1.828-5.212-0.915-10.918-6.127-12.747c-5.206-1.825-10.917,0.915-12.746,6.126c-9.309,26.54-31.641,45.426-57.462,49.615 c22.469-19.26,35.282-47.046,35.282-76.786c0-18.654,15.272-33.831,34.045-33.831h1.1c8.688,0,16.856,3.384,23,9.528 c6.144,6.144,9.526,14.313,9.525,23L160.494,261.809z M380.271,257.448L380.271,257.448c-0.001,9.144-3.592,17.71-10.112,24.122 c-6.519,6.411-15.167,9.84-24.303,9.704c-18.333-0.306-33.248-15.804-33.248-34.547v-2.784c11.198,6.797,24.62,10.5,38.31,10.5 c5.522,0,10-4.477,10-10s-4.478-10-10-10c-11.248,0-22.162-3.351-30.73-9.435c-4.746-3.37-7.579-8.98-7.579-15.008v-10.75 c0-5.101,4.149-9.25,9.25-9.25h28.412c16.542,0,30,13.458,30,30V257.448z M367.318,460l-36.317,0.058l-6.053-50.818l18.874,9.437 c2.814,1.407,6.129,1.407,8.943,0l20.557-10.278L367.318,460z"/><path d="M346.153,0c-23.502,0-46.622,6.201-66.861,17.932c-15.224,8.824-28.599,20.617-39.292,34.56 c-10.693-13.943-24.069-25.737-39.292-34.56C180.468,6.201,157.348,0,133.846,0C60.043,0,0,60.224,0,134.25 c0,30.441,11.135,59.707,31.353,82.405c1.976,2.219,4.717,3.349,7.471,3.349c2.366,0,4.741-0.835,6.647-2.533 c4.124-3.674,4.489-9.995,0.815-14.119C29.335,184.321,20,159.78,20,134.25C20,71.252,71.071,20,133.847,20 c40.28,0,76.758,20.704,97.58,55.383c1.807,3.011,5.062,4.853,8.573,4.853s6.765-1.842,8.573-4.853 C269.394,40.704,305.874,20,346.154,20C408.929,20,460,71.252,460,134.25c0,25.529-9.335,50.069-26.284,69.099 c-3.673,4.124-3.308,10.445,0.816,14.118c4.125,3.674,10.446,3.309,14.119-0.816C468.867,193.954,480,164.689,480,134.25 C480,60.224,419.957,0,346.153,0z"/></svg>
-                    </div>
-                    <h4 class="font-bold text-lg">Resepsi</h4>
-                    <div class="w-full flex items-start gap-3 text-sm">
-                        <i class="fas fa-calendar-alt text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>Sabtu, 28 Maret 2026</span>
-                    </div>
-                    <div class="w-full flex items-start gap-3 text-sm">
-                        <i class="fas fa-clock text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>10.00 WIB - Selesai</span>
-                    </div>
-                    <div class="w-full flex items-start gap-3 text-sm">
-                        <i class="fas fa-map-marker-alt text-[var(--emas)] mt-1 w-4 text-center"></i>
-                        <span>Jl. Rantau 3 No. 3A, Pekanbaru</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-            <p class="text-[#934444] text-center" style="z-index: 1;">
-                <b>Lokasi Rumah Kami:</b><br>Jl. Rantau 3 No. 3A, RT. 03 RW. 03, Simpang 3, Bukit Raya, Pekanbaru
-            </p>
-            <div class="map-responsive">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.42169874718!2d101.4635064695484!3d0.46522924103154156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5af11694fce1b%3A0xdf5aef4a8404292d!2sJl.%20Rantau%20III%2010-18%2C%20Simpang%20Tiga%2C%20Kec.%20Bukit%20Raya%2C%20Kota%20Pekanbaru%2C%20Riau%2028289!5e0!3m2!1sen!2sid!4v1770580295098!5m2!1sen!2sid" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-            <button class="btn" onclick="window.open('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.42169874718!2d101.4635064695484!3d0.46522924103154156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5af11694fce1b%3A0xdf5aef4a8404292d!2sJl.%20Rantau%20III%2010-18%2C%20Simpang%20Tiga%2C%20Kec.%20Bukit%20Raya%2C%20Kota%20Pekanbaru%2C%20Riau%2028289!5e0!3m2!1sen!2sid!4v1770580295098!5m2!1sen!2sid')" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">BUKA GOOGLE MAPS</button>
-        </div>
-    </div>
-
-    <!-- <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
+<body class="overflow-hidden">
+	<audio id="mySong" loop>
+		<source src="Track 01.mp3" type="audio/mpeg"> </audio>
+	<div id="overlay-container">
+		<div id="overlay-content" data-aos="zoom-in">
+			<p style="letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Undangan Pernikahan</p>
+			<div class="nama-vertikal text-4xl font-serif my-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mayasitthah
+				<br>&
+				<br>Fajar</div>
+			<p class="mb-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Kepada Bapak/Ibu/Saudara/i</p>
+			<button class="btn" onclick="bukaUndangan()" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); margin-top: 15rem;">BUKA UNDANGAN</button>
+		</div>
+	</div>
+	<div class="pucuk-border pucuk-atas"></div>
+	<div class="max-w-5xl mx-auto px-6" data-aos="fade-up">
+		<div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+			<p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ</p>
+			<p dir="rtl" class="text-[#934444] font-serif mb-8" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةًۗ اِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ لِّقَوْمٍ يَّتَفَكَّرُوْنَ<span class="ayah-container"><span class="ayah-symbol">۝</span><span class="ayah-number">٢١</span></span>
+			</p>
+			<p class="text-sm italic text-[#934444] leading-relaxed" style="z-index: 1;"> "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..." (QS. Ar-Rum : 21) </p>
+		</div>
+	</div>
+	<div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
+		<div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+			<svg class="corner-svg top-left" viewBox="0 0 100 100">
+				<path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+				<path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" /> </svg>
+			<svg class="corner-svg top-right" viewBox="0 0 100 100">
+				<path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+				<path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" /> </svg>
+			<svg class="corner-svg bottom-left" viewBox="0 0 100 100">
+				<path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+				<path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" /> </svg>
+			<svg class="corner-svg bottom-right" viewBox="0 0 100 100">
+				<path d="M10,10 Q15,40 40,45 Q20,50 15,80 M10,10 Q40,15 45,40 Q50,20 80,15 M15,15 C25,5 45,5 55,15 C45,20 35,20 25,35 C20,25 20,15 15,15 Z" stroke="currentColor" stroke-width="1" />
+				<path d="M12,12 C30,12 45,25 45,50 M12,12 C12,30 25,45 50,45" fill="none" stroke="currentColor" stroke-width="0.5" /> </svg>
+			<div class="relative z-10"> </div>
+			<div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mempelai</div>
+			<p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
+			<p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;">Besar niat di dalam hati, kami ingin menyatukan dua hati dalam ikatan abadi. Kehadiran serta doa restu Tuan dan Puan sekalian adalah seri yang akan menyempurnakan hari istimewa kami ini.</p>
+			<div class="desktop-row slide-right flex flex-col items-center gap-6"> <img src="foto nining A.webp" alt="Maya" class="profile-img">
+				<div class="name-container flex flex-col text-center">
+					<div class="main-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mayasitthah Ramaningsih, S.T</div>
+					<div class="parent-name">Putri dari Alm. Bapak Syarifuddin & Ibu Ismaidah</div>
+				</div>
+			</div>
+			<div class="flex items-center justify-center w-full" style="z-index: 1;">
+				<div class="flex-grow border-t border-gray-200"></div> <span class="px-6 font-serif text-5xl text-[#D4AF37] italic">&</span>
+				<div class="flex-grow border-t border-gray-200"></div>
+			</div>
+			<div class="desktop-row slide-left flex flex-col items-center gap-6">
+				<div class="name-container flex flex-col text-center">
+					<div class="main-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Fajar Raymond Damanik, S.T</div>
+					<div class="parent-name">Putra dari Bapak Lamsir Damanik & Ibu Posmauli br. Naibaho</div>
+				</div> <img src="foto fajar A.webp" alt="Fajar" class="profile-img order-1 lg:order-2"> </div>
+		</div>
+	</div>
+	<div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
+		<div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+			<div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Menuju Hari Bahagia</div> <img src="janur-hijau.svg" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur">
+			<!-- <img src="janur-emas.svg" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur"> -->
+			<p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;"> Tiada yang lebih indah selain dari hikmah yang tersirat dalam perjalanan kami. Syukur alhamdulillah, atas izin Allah Subhanahu Wa Ta'ala, kami dipertemukan dalam saat dan keadaan yang paling sebaik-baiknya menurut kehendak-Nya. </p>
+			<div class="main-name">Sabtu, 28 Maret 2026</div>
+			<div class="countdown-container" style="z-index: 1;">
+				<div class="countdown-item"><span id="days">00</span><small>Hari</small></div>
+				<div class="countdown-item"><span id="hours">00</span><small>Jam</small></div>
+				<div class="countdown-item"><span id="minutes">00</span><small>Menit</small></div>
+				<div class="countdown-item"><span id="seconds">00</span><small>Detik</small></div>
+			</div>
+			<div class="relative flex items-center justify-center w-full">
+				<div class="absolute w-full border-t border-gray-200"></div>
+			</div>
+			<div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Rangkaian Acara</div>
+			<div class="acara-box w-full">
+				<div class="acara-item">
+					<div class="icon-wrapper">
+						<svg viewBox="0 0 512 512" style="fill: var(--marun);">
+							<path d="M354.079,176.934c-37.031,0-71.12,12.818-98.079,34.241c-26.959-21.424-61.048-34.241-98.079-34.241 C70.842,176.934,0,247.777,0,334.855s70.842,157.921,157.921,157.921c37.031,0,71.12-12.818,98.079-34.241 c26.959,21.424,61.048,34.241,98.079,34.241c87.079,0,157.921-70.843,157.921-157.921S441.158,176.934,354.079,176.934z M157.922,459.384c-68.667,0-124.531-55.864-124.531-124.53c0-68.665,55.864-124.528,124.53-124.528 c27.719,0,53.349,9.108,74.064,24.482c-22.377,27.258-35.826,62.11-35.826,100.046c0,37.937,13.45,72.789,35.827,100.047 C211.272,450.276,185.641,459.384,157.922,459.384z M229.55,334.855c0-28.883,9.886-55.5,26.45-76.648 c16.563,21.148,26.45,47.764,26.45,76.648s-9.887,55.5-26.45,76.648C239.437,390.354,229.55,363.737,229.55,334.855z M354.079,459.384c-27.719,0-53.35-9.108-74.064-24.483c22.377-27.258,35.827-62.11,35.827-100.047 c0-37.936-13.449-72.789-35.826-100.046c20.714-15.375,46.345-24.483,74.064-24.483c68.665,0,124.53,55.864,124.53,124.528 C478.609,403.521,422.745,459.384,354.079,459.384z" />
+							<path d="M221.441,150.234c10.507,8.127,24.863,17.46,25.469,17.853l9.09,5.9l9.09-5.9c0.606-0.394,14.96-9.726,25.469-17.853 c24.203-18.719,51.985-44.085,51.985-74.342c0-31.246-25.421-56.667-56.667-56.667c-10.651,0-20.988,3.013-29.876,8.528 c-8.888-5.516-19.224-8.528-29.876-8.528c-31.246,0-56.667,25.421-56.667,56.667 C169.456,106.149,197.238,131.515,221.441,150.234z M226.124,52.616c6.635,0,12.977,2.853,17.399,7.826L256,74.477l12.477-14.034 c4.422-4.973,10.764-7.826,17.399-7.826c12.834,0,23.276,10.441,23.276,23.276c0,11.777-13.129,27.903-39.022,47.929 c-4.383,3.389-9.694,7.131-14.13,10.171c-4.437-3.039-9.748-6.781-14.13-10.171c-25.893-20.026-39.022-36.152-39.022-47.929 C202.848,63.058,213.289,52.616,226.124,52.616z" /> </svg>
+					</div>
+					<h4 class="font-bold text-lg">Akad Nikah</h4>
+					<div class="w-full flex items-start gap-3 text-sm"> <i class="fas fa-calendar-alt text-[var(--border)] mt-1 w-4 text-center"></i> <span>Sabtu, 28 Maret 2026</span> </div>
+					<div class="w-full flex items-start gap-3 text-sm"> <i class="fas fa-clock text-[var(--border)] mt-1 w-4 text-center"></i> <span>08.00 WIB</span> </div>
+					<div class="w-full flex items-start gap-3 text-sm"> <i class="fas fa-map-marker-alt text-[var(--border)] mt-1 w-4 text-center"></i> <span>Jl. Rantau 3 No. 3A, Pekanbaru</span> </div>
+				</div>
+				<div class="acara-item">
+					<div class="icon-wrapper">
+						<svg viewBox="0 0 480 480" style="fill: var(--marun);">
+							<path d="M382.884,297.066c0.438-0.404,0.871-0.815,1.299-1.236c10.374-10.202,16.087-23.833,16.087-38.382V230 c0-27.57-22.43-50-50-50h-28.412c-16.129,0-29.25,13.122-29.25,29.25v47.477c0,13.898,5.235,26.666,13.814,36.35 c-6.854,2.128-13.081,6.083-17.96,11.54l-36.684,35.69c-0.191,0.187-0.376,0.381-0.553,0.583 c-2.285,2.613-5.587,4.111-9.059,4.111c-3.472,0-6.773-1.498-9.059-4.111c-0.271-0.31-0.561-0.602-0.868-0.876l-39.525-35.275 c-5.181-5.656-12.317-9.1-19.93-9.658c4.936-10.048,7.708-21.34,7.709-33.27l0.002-23.223 c0.001-14.031-5.462-27.222-15.383-37.144c-9.921-9.922-23.111-15.386-37.143-15.386h-1.1c-29.801,0-54.045,24.148-54.045,53.831 c0,24.8-11.107,47.91-30.474,63.403l-8.366,6.693c-5.205,4.165-7.143,10.92-4.937,17.211c2.207,6.29,7.94,10.355,14.606,10.355 h20.68c-1.561,3.504-2.92,7.162-4.074,10.961L33.37,437.04c-3.385,11.143-1.43,23.54,5.104,32.352 C43.475,476.133,50.733,480,58.392,480h125.572c7.657,0,14.916-3.867,19.915-10.609c6.533-8.812,8.489-21.208,5.104-32.352 l-24.282-79.945c-1.605-5.285-7.191-8.266-12.475-6.662c-5.284,1.605-8.268,7.19-6.662,12.475l24.282,79.945 c1.769,5.824,0.253,11.543-2.034,14.628c-0.697,0.941-2.126,2.521-3.849,2.521H58.392c-1.723,0-3.151-1.579-3.849-2.521 c-2.287-3.084-3.803-8.804-2.033-14.628l26.889-88.528c1.863-6.134,4.386-11.756,7.521-16.773h17.827 c21.055,0,40.13-8.634,53.872-22.55h11.972c2.884,0,5.627,1.245,7.526,3.415c0.271,0.31,0.561,0.602,0.867,0.876l39.521,35.271 c6.063,6.642,14.646,10.438,23.661,10.438c9.093,0,17.749-3.863,23.819-10.613l36.689-35.696 c0.191-0.187,0.376-0.381,0.552-0.582c3.799-4.341,9.285-6.831,15.052-6.831h28.164c0.002,0,0.01,0,0.015,0h15.704 c5.818,0,11.144,2.402,14.994,6.764s5.573,9.943,4.842,15.801l-5.913,50.812l-27.791,13.896l-26.178-13.089l-3.77-31.646 c-0.653-5.484-5.631-9.402-11.112-8.747c-5.484,0.653-9.4,5.628-8.747,11.112l12.661,106.299 c1.249,9.987,9.781,17.519,19.846,17.519h36.324c10.066,0,18.598-7.532,19.854-17.604l14.681-126.156 c1.423-11.379-2.114-22.836-9.704-31.433C389.443,301.741,386.313,299.142,382.884,297.066z M160.494,261.809 c-0.003,30.736-25.012,55.741-55.747,55.741h-1.833c13.804-11.025,24.729-26.091,30.965-43.871 c1.828-5.212-0.915-10.918-6.127-12.747c-5.206-1.825-10.917,0.915-12.746,6.126c-9.309,26.54-31.641,45.426-57.462,49.615 c22.469-19.26,35.282-47.046,35.282-76.786c0-18.654,15.272-33.831,34.045-33.831h1.1c8.688,0,16.856,3.384,23,9.528 c6.144,6.144,9.526,14.313,9.525,23L160.494,261.809z M380.271,257.448L380.271,257.448c-0.001,9.144-3.592,17.71-10.112,24.122 c-6.519,6.411-15.167,9.84-24.303,9.704c-18.333-0.306-33.248-15.804-33.248-34.547v-2.784c11.198,6.797,24.62,10.5,38.31,10.5 c5.522,0,10-4.477,10-10s-4.478-10-10-10c-11.248,0-22.162-3.351-30.73-9.435c-4.746-3.37-7.579-8.98-7.579-15.008v-10.75 c0-5.101,4.149-9.25,9.25-9.25h28.412c16.542,0,30,13.458,30,30V257.448z M367.318,460l-36.317,0.058l-6.053-50.818l18.874,9.437 c2.814,1.407,6.129,1.407,8.943,0l20.557-10.278L367.318,460z" />
+							<path d="M346.153,0c-23.502,0-46.622,6.201-66.861,17.932c-15.224,8.824-28.599,20.617-39.292,34.56 c-10.693-13.943-24.069-25.737-39.292-34.56C180.468,6.201,157.348,0,133.846,0C60.043,0,0,60.224,0,134.25 c0,30.441,11.135,59.707,31.353,82.405c1.976,2.219,4.717,3.349,7.471,3.349c2.366,0,4.741-0.835,6.647-2.533 c4.124-3.674,4.489-9.995,0.815-14.119C29.335,184.321,20,159.78,20,134.25C20,71.252,71.071,20,133.847,20 c40.28,0,76.758,20.704,97.58,55.383c1.807,3.011,5.062,4.853,8.573,4.853s6.765-1.842,8.573-4.853 C269.394,40.704,305.874,20,346.154,20C408.929,20,460,71.252,460,134.25c0,25.529-9.335,50.069-26.284,69.099 c-3.673,4.124-3.308,10.445,0.816,14.118c4.125,3.674,10.446,3.309,14.119-0.816C468.867,193.954,480,164.689,480,134.25 C480,60.224,419.957,0,346.153,0z" /> </svg>
+					</div>
+					<h4 class="font-bold text-lg">Resepsi</h4>
+					<div class="w-full flex items-start gap-3 text-sm"> <i class="fas fa-calendar-alt text-[var(--border)] mt-1 w-4 text-center"></i> <span>Sabtu, 28 Maret 2026</span> </div>
+					<div class="w-full flex items-start gap-3 text-sm"> <i class="fas fa-clock text-[var(--border)] mt-1 w-4 text-center"></i> <span>10.00 WIB - Selesai</span> </div>
+					<div class="w-full flex items-start gap-3 text-sm"> <i class="fas fa-map-marker-alt text-[var(--border)] mt-1 w-4 text-center"></i> <span>Jl. Rantau 3 No. 3A, Pekanbaru</span> </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
+		<div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+			<p class="text-[#934444] text-center" style="z-index: 1;"> <b>Lokasi Rumah Kami:</b>
+				<br>Jl. Rantau 3 No. 3A, RT. 03 RW. 03, Simpang 3, Bukit Raya, Pekanbaru </p>
+			<div class="map-responsive">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.42169874718!2d101.4635064695484!3d0.46522924103154156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5af11694fce1b%3A0xdf5aef4a8404292d!2sJl.%20Rantau%20III%2010-18%2C%20Simpang%20Tiga%2C%20Kec.%20Bukit%20Raya%2C%20Kota%20Pekanbaru%2C%20Riau%2028289!5e0!3m2!1sen!2sid!4v1770580295098!5m2!1sen!2sid" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+			</div>
+			<button class="btn" onclick="window.open('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d997.42169874718!2d101.4635064695484!3d0.46522924103154156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5af11694fce1b%3A0xdf5aef4a8404292d!2sJl.%20Rantau%20III%2010-18%2C%20Simpang%20Tiga%2C%20Kec.%20Bukit%20Raya%2C%20Kota%20Pekanbaru%2C%20Riau%2028289!5e0!3m2!1sen!2sid!4v1770580295098!5m2!1sen!2sid')" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">BUKA GOOGLE MAPS</button>
+		</div>
+	</div>
+	<!-- <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
         <div class="card-section">
                 <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Momen Indah</div>
                 <div class="gallery-grid">
@@ -470,241 +506,193 @@
             </div>
         </div>
     </div> -->
+	<div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
+		<div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+			<div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Konfirmasi Kehadiran</div>
+			<div class="rsvp-form w-full" style="z-index: 1;">
+				<form id="form-ucapan">
+					<input type="text" name="nama" placeholder="Nama Lengkap" required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">
+					<select name="kehadiran" required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">
+						<option value="">Konfirmasi Kehadiran</option>
+						<option value="Hadir">Hadir</option>
+						<option value="Berhalangan">Berhalangan</option>
+					</select>
+					<textarea name="ucapan" rows="4" placeholder="Tulis doa restu Anda..." required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);"></textarea>
+					<button type="submit" class="btn" id="btnKirim" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">Kirim Ucapan</button>
+				</form>
+				<button class="btn btn-wa" style="background-color: #25D366 !important; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);" onclick="kirimWA()"> <i class="fa-brands fa-whatsapp text-2xl mr-3"></i> KONFIRMASI VIA WHATSAPP </button>
+				<hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+				<h3 class="text-xl font-bold text-gray-700">Ucapan Doa</h3>
+				<div id="daftar-ucapan">
+					<p>Memuat ucapan...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="py-12 mt-4 text-center border-t border-gray-100 bg-white/80 backdrop-blur-sm">
+		<div class="mb-2 text-[#934444] opacity-40"> <span class="text-5xl">❦</span> </div>
+		<p class="text-[#934444] font-medium tracking-widest uppercase text-xs"> Maya & Fajar </p>
+		<p class="text-gray text-[14px] tracking-tight"> © 2026 Mayasitthah & Fajar. All Rights Reserved. </p>
+		<div class="mt-1">
+			<p class="text-[12px] text-black uppercase tracking-tighter italic"> Made with love for our special day </p>
+		</div>
+	</footer>
+	<div class="pucuk-border pucuk-bawah"></div>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script>
+	function bukaUndangan() {
+		// 1. Remove the lock class to allow scrolling
+		document.body.classList.remove('overflow-hidden');
+		// 2. Your existing logic to hide the overlay
+		const overlay = document.getElementById('overlay-container');
+		overlay.style.display = 'none'; // or your preferred animation logic
+	}
+	AOS.init();
+	// One function to rule them all (Play song + Hide Overlay)
+	function bukaUndangan() {
+		document.getElementById('overlay-container').classList.add('overlay-hidden');
+		document.body.style.overflow = 'auto';
+		const song = document.getElementById('mySong');
+		song.play().catch(e => console.log("Audio play blocked by browser"));
+	}
+	// Countdown Logic
+	const weddingDate = new Date("March 28, 2026 08:00:00").getTime();
+	const countdownFunction = setInterval(function() {
+		const now = new Date().getTime();
+		const distance = weddingDate - now;
+		const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+		const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		const s = Math.floor((distance % (1000 * 60)) / 1000);
+		document.getElementById("days").innerHTML = d.toString().padStart(2, '0');
+		document.getElementById("hours").innerHTML = h.toString().padStart(2, '0');
+		document.getElementById("minutes").innerHTML = m.toString().padStart(2, '0');
+		document.getElementById("seconds").innerHTML = s.toString().padStart(2, '0');
+		if(distance < 0) {
+			clearInterval(countdownFunction);
+			document.querySelector(".countdown-container").innerHTML = "HARI BAHAGIA TELAH TIBA!";
+		}
+	}, 1000);
+	// Google Sheets Integration
+	const scriptURL = 'https://script.google.com/macros/s/AKfycbzZl1krvOTNA0SMAyrkRccn9Rs1qIMUU_tAN4gJ5gr8QPhAQOUWC1LU2Yaos7yUbkmxIQ/exec';
+	const form = document.querySelector('#form-ucapan');
+	const btnKirim = document.querySelector('#btnKirim');
+	form.addEventListener('submit', e => {
+		e.preventDefault();
+		btnKirim.disabled = true;
+		btnKirim.innerText = "Mengirim...";
+		fetch(scriptURL, {
+			method: 'POST',
+			body: new FormData(form)
+		}).then(() => {
+			alert("Terima kasih atas ucapannya!");
+			btnKirim.disabled = false;
+			btnKirim.innerText = "Kirim Ucapan";
+			form.reset();
+			muatUcapan();
+		}).catch(err => {
+			console.error(err);
+			btnKirim.disabled = false;
+			btnKirim.innerText = "Kirim Ucapan";
+		});
+	});
 
-
-
-
-
-
-
-
-    <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-            <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Konfirmasi Kehadiran</div>
-            <div class="rsvp-form w-full" style="z-index: 1;">
-                <form id="form-ucapan">
-                    <input type="text" name="nama" placeholder="Nama Lengkap" required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">
-                    <select name="kehadiran" required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">
-                        <option value="">Konfirmasi Kehadiran</option>
-                        <option value="Hadir">Hadir</option>
-                        <option value="Berhalangan">Berhalangan</option>
-                    </select>
-                    <textarea name="ucapan" rows="4" placeholder="Tulis doa restu Anda..." required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);"></textarea>
-                    <button type="submit" class="btn" id="btnKirim" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">Kirim Ucapan</button>
-                </form>
-
-                <button class="btn btn-wa" style="background-color: #25D366 !important; border:none; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);" onclick="kirimWA()">
-                    <i class="fa-brands fa-whatsapp text-2xl mr-3"></i> 
-                    KONFIRMASI VIA WHATSAPP
-                </button>
-
-                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-                <h3 class="text-xl font-bold text-gray-700">Ucapan Doa</h3>
-                <div id="daftar-ucapan">
-                    <p>Memuat ucapan...</p>
-                </div>
-            </div>
-        </div>
+	function muatUcapan() {
+		fetch(scriptURL).then(res => res.json()).then(data => {
+			const wadah = document.querySelector('#daftar-ucapan');
+			wadah.innerHTML = '';
+			if(!data || data.length === 0) {
+				wadah.innerHTML = '<p class="text-gray-500 italic text-center">Belum ada ucapan.</p>';
+				return;
+			}
+			// Configuration for the date format
+			const opsiTanggal = {
+				day: 'numeric',
+				month: 'long'
+			};
+			const opsiWaktu = {
+				hour: '2-digit',
+				minute: '2-digit',
+				hour12: false
+			};
+			data.reverse().forEach(row => {
+				let formatWaktu = "";
+				if(row[3]) {
+					const d = new Date(row[3]);
+					// Format: "12 Maret"
+					const tgl = new Intl.DateTimeFormat('id-ID', opsiTanggal).format(d);
+					// Format: "04.08" (changing : to .)
+					const jam = new Intl.DateTimeFormat('id-ID', opsiWaktu).format(d).replace(':', '.');
+					formatWaktu = `${tgl}, ${jam}`;
+				}
+				wadah.innerHTML += `
+                <div class="item-ucapan mb-4 p-3 border-l-4 border-[#719B6E] bg-white shadow-sm">
+    <div class="flex justify-between items-center">
+        <strong class="text-[var(--sisi-komen)] text-sm">${row[0]}</strong>
+        <span class="text-[10px] text-gray-400 font-mono">${formatWaktu}</span>
     </div>
-
-<footer class="py-12 mt-4 text-center border-t border-gray-100 bg-white/80 backdrop-blur-sm">
-    <div class="mb-2 text-[#934444] opacity-40">
-        <span class="text-5xl">❦</span>
+    <div class="text-[10px] inline-block px-2 py-0.5 rounded bg-gray-50 text-gray-500 mb-1">
+        ${row[1]}
     </div>
-    
-    <p class="text-[#934444] font-medium tracking-widest uppercase text-xs">
-        Maya & Fajar
-    </p>
-    
-    <p class="text-gray text-[14px] tracking-tight">
-        © 2026 Mayasitthah & Fajar. All Rights Reserved.
-    </p>
-    
-    <div class="mt-1">
-        <p class="text-[12px] text-black uppercase tracking-tighter italic">
-            Made with love for our special day
-        </p>
-    </div>
-</footer>
+    <p class="text-gray-700 text-sm leading-relaxed">${row[2]}</p>
+</div>`;
+			});
+		});
+	}
+	muatUcapan();
 
-    <div class="pucuk-border pucuk-bawah"></div>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init();
-
-        // One function to rule them all (Play song + Hide Overlay)
-        function bukaUndangan() {
-            document.getElementById('overlay-container').classList.add('overlay-hidden');
-            document.body.style.overflow = 'auto';
-            const song = document.getElementById('mySong');
-            song.play().catch(e => console.log("Audio play blocked by browser"));
-        }
-
-        // Countdown Logic
-        const weddingDate = new Date("March 28, 2026 08:00:00").getTime();
-        const countdownFunction = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerHTML = d.toString().padStart(2, '0');
-            document.getElementById("hours").innerHTML = h.toString().padStart(2, '0');
-            document.getElementById("minutes").innerHTML = m.toString().padStart(2, '0');
-            document.getElementById("seconds").innerHTML = s.toString().padStart(2, '0');
-
-            if (distance < 0) {
-                clearInterval(countdownFunction);
-                document.querySelector(".countdown-container").innerHTML = "HARI BAHAGIA TELAH TIBA!";
-            }
-        }, 1000);
-
-        // Google Sheets Integration
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzZl1krvOTNA0SMAyrkRccn9Rs1qIMUU_tAN4gJ5gr8QPhAQOUWC1LU2Yaos7yUbkmxIQ/exec';
-        const form = document.querySelector('#form-ucapan');
-        const btnKirim = document.querySelector('#btnKirim');
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            btnKirim.disabled = true;
-            btnKirim.innerText = "Mengirim...";
-            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-                .then(() => {
-                    alert("Terima kasih atas ucapannya!");
-                    btnKirim.disabled = false;
-                    btnKirim.innerText = "Kirim Ucapan";
-                    form.reset();
-                    muatUcapan();
-                })
-                .catch(err => {
-                    console.error(err);
-                    btnKirim.disabled = false;
-                    btnKirim.innerText = "Kirim Ucapan";
-                });
-        });
-
-        function muatUcapan() {
-    fetch(scriptURL).then(res => res.json()).then(data => {
-        const wadah = document.querySelector('#daftar-ucapan');
-        wadah.innerHTML = '';
-        
-        if (!data || data.length === 0) {
-            wadah.innerHTML = '<p class="text-gray-500 italic text-center">Belum ada ucapan.</p>';
-            return;
-        }
-
-        // Configuration for the date format
-        const opsiTanggal = { day: 'numeric', month: 'long' };
-        const opsiWaktu = { hour: '2-digit', minute: '2-digit', hour12: false };
-
-        data.reverse().forEach(row => {
-            let formatWaktu = "";
-            
-            if (row[3]) {
-                const d = new Date(row[3]);
-                // Format: "12 Maret"
-                const tgl = new Intl.DateTimeFormat('id-ID', opsiTanggal).format(d);
-                // Format: "04.08" (changing : to .)
-                const jam = new Intl.DateTimeFormat('id-ID', opsiWaktu).format(d).replace(':', '.');
-                
-                formatWaktu = `${tgl}, ${jam}`;
-            }
-
-            wadah.innerHTML += `
-                <div class="item-ucapan mb-4 p-3 border-b border-gray-100">
-                    <div class="flex justify-between items-center">
-                        <strong class="text-[#934444] text-sm">${row[0]}</strong>
-                        <span class="text-[10px] text-gray-400 font-mono">${formatWaktu}</span>
-                    </div>
-                    <div class="text-[10px] inline-block px-2 py-0.5 rounded bg-gray-50 text-gray-500 mb-1">
-                        ${row[1]}
-                    </div>
-                    <p class="text-gray-700 text-sm leading-relaxed">${row[2]}</p>
-                </div>`;
-        });
-    });
-}
-        muatUcapan();
-
-        function kirimWA() {
-            const text = encodeURIComponent("Halo Maya & Fajar, saya ingin mengonfirmasi kehadiran di pernikahan kalian...");
-            window.open(`https://wa.me/6281371744048?text=${text}`);
-        }
-
-
-
-
-
-
-const containers = document.querySelectorAll('.watermark-container');
-const flowerIcons = ['🌸', '🌼', '🌻', '🌺', '🌷'];
-
-// Adjust this number to change density. 
-// 0.0002 means 1 flower for every 5000 pixels.
-const density = 0.001; 
-
-containers.forEach(container => {
-    // 1. Get the actual pixel dimensions of the div
-    const rect = container.getBoundingClientRect();
-    const area = rect.width * rect.height;
-
-    // 2. Calculate number of flowers based on area
-    const numberOfFlowers = Math.floor(area * density);
-
-    for (let i = 0; i < numberOfFlowers; i++) {
-        const span = document.createElement('span');
-        span.innerText = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
-        
-        span.style.position = 'absolute';
-        span.style.fontSize = (Math.random() * 20 + 20) + 'px'; 
-        span.style.opacity = '0.1'; 
-        span.style.zIndex = '0';
-        span.style.pointerEvents = 'none';
-        span.style.userSelect = 'none';
-
-        // Use 100% to ensure they cover the whole calculated area
-        span.style.top = Math.random() * 100 + '%';
-        span.style.left = Math.random() * 100 + '%';
-        span.style.transform = `rotate(${Math.random() * 360}deg)`;
-
-        container.appendChild(span);
-    }
-});
-
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    const observerOptions = {
-        threshold: 0.15 // Trigger when 15% of the card is visible
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('appear');
-                // We stop observing once it has appeared to save browser memory
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Use querySelectorAll to get BOTH divs
-    const targets = document.querySelectorAll('.desktop-row');
-    
-    // Loop through the list and tell the observer to watch each one
-    targets.forEach(target => {
-        observer.observe(target);
-    });
-});
-
-    </script>
+	function kirimWA() {
+		const text = encodeURIComponent("Halo Maya & Fajar, saya ingin mengonfirmasi kehadiran di pernikahan kalian...");
+		window.open(`https://wa.me/6281371744048?text=${text}`);
+	}
+	const containers = document.querySelectorAll('.watermark-container');
+	const flowerIcons = ['🌸', '🌼', '🌻', '🌺', '🌷'];
+	// Adjust this number to change density. 
+	// 0.0002 means 1 flower for every 5000 pixels.
+	const density = 0.001;
+	containers.forEach(container => {
+		// 1. Get the actual pixel dimensions of the div
+		const rect = container.getBoundingClientRect();
+		const area = rect.width * rect.height;
+		// 2. Calculate number of flowers based on area
+		const numberOfFlowers = Math.floor(area * density);
+		for(let i = 0; i < numberOfFlowers; i++) {
+			const span = document.createElement('span');
+			span.innerText = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
+			span.style.position = 'absolute';
+			span.style.fontSize = (Math.random() * 20 + 20) + 'px';
+			span.style.opacity = '0.1';
+			span.style.zIndex = '0';
+			span.style.pointerEvents = 'none';
+			span.style.userSelect = 'none';
+			// Use 100% to ensure they cover the whole calculated area
+			span.style.top = Math.random() * 100 + '%';
+			span.style.left = Math.random() * 100 + '%';
+			span.style.transform = `rotate(${Math.random() * 360}deg)`;
+			container.appendChild(span);
+		}
+	});
+	document.addEventListener("DOMContentLoaded", function() {
+		const observerOptions = {
+			threshold: 0.15 // Trigger when 15% of the card is visible
+		};
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(entry => {
+				if(entry.isIntersecting) {
+					entry.target.classList.add('appear');
+					// We stop observing once it has appeared to save browser memory
+					observer.unobserve(entry.target);
+				}
+			});
+		}, observerOptions);
+		// Use querySelectorAll to get BOTH divs
+		const targets = document.querySelectorAll('.desktop-row');
+		// Loop through the list and tell the observer to watch each one
+		targets.forEach(target => {
+			observer.observe(target);
+		});
+	});
+	</script>
 </body>
+
 </html>
