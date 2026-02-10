@@ -307,9 +307,9 @@
 
     <div class="max-w-5xl mx-auto px-6" data-aos="fade-up">
         <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem);">بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ</p>
-            <p dir="rtl" class="text-[#934444] font-serif mb-8" style="font-size: clamp(1rem, 5vw, 3rem);">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةًۗ اِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ لِّقَوْمٍ يَّتَفَكَّرُوْنَ<span class="ayah-container"><span class="ayah-symbol">۝</span><span class="ayah-number">٢١</span></span></p>
-            <p class="text-sm italic text-[#934444] leading-relaxed">
+            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ</p>
+            <p dir="rtl" class="text-[#934444] font-serif mb-8" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةًۗ اِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ لِّقَوْمٍ يَّتَفَكَّرُوْنَ<span class="ayah-container"><span class="ayah-symbol">۝</span><span class="ayah-number">٢١</span></span></p>
+            <p class="text-sm italic text-[#934444] leading-relaxed" style="z-index: 1;">
                 "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..." (QS. Ar-Rum : 21)
             </p>
         </div>
@@ -348,7 +348,7 @@
 
 
             <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mempelai</div>
-            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem);">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
+            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem); z-index: 1;">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
             <p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;">Besar niat di dalam hati, kami ingin menyatukan dua hati dalam ikatan abadi. Kehadiran serta doa restu Tuan dan Puan sekalian adalah seri yang akan menyempurnakan hari istimewa kami ini.</p>
             
 
@@ -638,6 +638,8 @@
 
 
 
+
+
 const containers = document.querySelectorAll('.watermark-container');
 const flowerIcons = ['🌸', '🌼', '🌻', '🌺', '🌷'];
 
@@ -659,7 +661,7 @@ containers.forEach(container => {
         
         span.style.position = 'absolute';
         span.style.fontSize = (Math.random() * 20 + 20) + 'px'; 
-        span.style.opacity = '0.15'; 
+        span.style.opacity = '0.1'; 
         span.style.zIndex = '0';
         span.style.pointerEvents = 'none';
         span.style.userSelect = 'none';
@@ -672,6 +674,11 @@ containers.forEach(container => {
         container.appendChild(span);
     }
 });
+
+
+
+
+
 
 
 document.addEventListener("DOMContentLoaded", function() {
