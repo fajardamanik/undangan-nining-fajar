@@ -35,9 +35,10 @@
             z-index: 1000;
             position: fixed;
             left: 0;
+            z-index: 1;
         }
-        .pucuk-atas { top: 0; transform: scaleY(-1); }
-        .pucuk-bawah { bottom: 0; }
+        .pucuk-atas { top: 0; transform: scaleY(-1); z-index: 1;}
+        .pucuk-bawah { bottom: 0; z-index: 1;}
 
         /* Overlay System */
         #overlay-container {
@@ -51,7 +52,6 @@
             justify-content: center;
             transition: 1s ease-in-out;
         }
-        
         #overlay-content {
             width: 85%; height: 80%;
             background: linear-gradient(rgba(181, 254, 254, 0.7), rgba(74, 4, 4, 0.7)), url('foto overlay.webp') center/cover;
@@ -124,6 +124,7 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
+            z-index: 1;
         }
         .icon-wrapper { width: 60px; height: 60px; }
 
@@ -150,6 +151,7 @@
             max-width: 800px;
             aspect-ratio: 8 / 6;
             margin: 20px auto;
+            z-index: 1;
         }
         .btn {
             background: var(--emas);
@@ -164,8 +166,9 @@
             max-width: 250px;
             text-align: center;
             cursor: pointer;
+            z-index: 1;
         }
-        .btn:hover { background: #b8952d; transform: scale(1.05); }
+        .btn:hover { background: #b8952d; transform: scale(1.05); z-index: 1;}
 
         /* RSVP & Comments */
 
@@ -181,6 +184,7 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             font-family: inherit;
+            z-index: 1;
         }
 
         #daftar-ucapan {
@@ -189,6 +193,7 @@
             overflow-y: auto;
             text-align: left;
             margin-top: 20px;
+            z-index: 1;
         }
         .item-ucapan {
             background: #f8f8f8;
@@ -196,18 +201,28 @@
             border-radius: 12px;
             margin-bottom: 15px;
             border-left: 4px solid var(--marun);
+            z-index: 1;
         }
 
         /* Desktop Layout */
         @media (min-width: 1024px) {
-            .desktop-row {
-                display: flex;
-                flex-direction: row;
-                text-align: left;
-                justify-content: center;
-                gap: 50px;
-                align-items: center;
-            }
+            /* Starting state: Hidden and shifted 100px to the left */
+.desktop-row {
+    opacity: 0;
+    transform: translateX(-50px); /* Slide from left */
+    transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+/* If you want the second one to slide from the right, we can do that in HTML/CSS later */
+.slide-left { transform: translateX(-100px); }
+.slide-right { transform: translateX(100px); }
+
+/* Both return to 0 when 'appear' is added */
+.desktop-row.appear {
+    transform: translateX(0);
+    opacity: 1;
+}
         }
 
         .card-section {
@@ -291,8 +306,8 @@
     <div class="pucuk-border pucuk-atas"></div>
 
     <div class="max-w-5xl mx-auto px-6" data-aos="fade-up">
-        <div class="card-section">
-            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1rem, 5vw, 3rem);">بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ</p>
+        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+            <p dir="rtl" class="text-[#934444] font-serif mb-6" style="font-size: clamp(1.5rem, 5vw, 3rem);">بِسْــــــــــــــــــمِ اللهِ الرَّحْمَنِ الرَّحِيْمِ</p>
             <p dir="rtl" class="text-2xl text-[#934444] font-serif mb-8 leading-loose">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةًۗ اِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ لِّقَوْمٍ يَّتَفَكَّرُوْنَ<span class="ayah-container"><span class="ayah-symbol">۝</span><span class="ayah-number">٢١</span></span></p>
             <p class="text-sm italic text-[#934444] leading-relaxed">
                 "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..." (QS. Ar-Rum : 21)
@@ -335,7 +350,9 @@
             <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mempelai</div>
             <p dir="rtl" class="text-2xl text-[#934444] font-serif mb-8 leading-loose" style="z-index: 1;">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
             <p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;">Besar niat di dalam hati, kami ingin menyatukan dua hati dalam ikatan abadi. Kehadiran serta doa restu Tuan dan Puan sekalian adalah seri yang akan menyempurnakan hari istimewa kami ini.</p>
-            <div class="desktop-row flex flex-col items-center gap-6">
+            
+
+            <div class="desktop-row slide-right flex flex-col items-center gap-6">
                 <img src="foto nining A.webp" alt="Maya" class="profile-img">
                 <div class="name-container flex flex-col text-center">
                     <div class="main-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mayasitthah Ramaningsih, S.T</div>
@@ -343,13 +360,13 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-center w-full">
+            <div class="flex items-center justify-center w-full" style="z-index: 1;">
                 <div class="flex-grow border-t border-gray-200"></div>
                 <span class="px-6 font-serif text-5xl text-[#D4AF37] italic">&</span>
                 <div class="flex-grow border-t border-gray-200"></div>
             </div>
 
-            <div class="desktop-row flex flex-col items-center gap-6">
+            <div class="desktop-row slide-left flex flex-col items-center gap-6">
                 <div class="name-container flex flex-col text-center">
                     <div class="main-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Fajar Raymond Damanik, S.T</div>
                     <div class="parent-name">Putra dari Bapak Lamsir Damanik & Ibu Posmauli br. Naibaho</div>
@@ -360,16 +377,16 @@
     </div>
 
     <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section">
+        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
             <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Menuju Hari Bahagia</div>
-            <img src="janur.png" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto;" alt="Janur">
-            <p class="text-justify text-sm text-[#934444] h-auto mx-auto block">
+            <img src="janur.png" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur">
+            <p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;">
                 Tiada yang lebih indah selain dari hikmah yang tersirat dalam perjalanan kami. Syukur alhamdulillah, atas izin Allah Subhanahu Wa Ta'ala, kami dipertemukan dalam saat dan keadaan yang paling sebaik-baiknya menurut kehendak-Nya.
             </p>
 
             <div class="main-name">Sabtu, 28 Maret 2026</div>
 
-            <div class="countdown-container">
+            <div class="countdown-container" style="z-index: 1;">
                 <div class="countdown-item"><span id="days">00</span><small>Hari</small></div>
                 <div class="countdown-item"><span id="hours">00</span><small>Jam</small></div>
                 <div class="countdown-item"><span id="minutes">00</span><small>Menit</small></div>
@@ -431,8 +448,8 @@
     </div>
 
     <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section">
-            <p class="text-[#934444] text-center">
+        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
+            <p class="text-[#934444] text-center" style="z-index: 1;">
                 <b>Lokasi Rumah Kami:</b><br>Jl. Rantau 3 No. 3A, RT. 03 RW. 03, Simpang 3, Bukit Raya, Pekanbaru
             </p>
             <div class="map-responsive">
@@ -462,9 +479,9 @@
 
 
     <div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
-        <div class="card-section">
+        <div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
             <div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Konfirmasi Kehadiran</div>
-            <div class="rsvp-form w-full">
+            <div class="rsvp-form w-full" style="z-index: 1;">
                 <form id="form-ucapan">
                     <input type="text" name="nama" placeholder="Nama Lengkap" required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">
                     <select name="kehadiran" required style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">
@@ -621,34 +638,66 @@
 
 
 
-// 1. Use .watermark-container (the dot means class)
-  const containers = document.querySelectorAll('.watermark-container');
-  const flowerIcons = ['🌸', '🌼', '🌻', '🌺', '🌷'];
-  const numberOfFlowers = 500; 
+const containers = document.querySelectorAll('.watermark-container');
+const flowerIcons = ['🌸', '🌼', '🌻', '🌺', '🌷'];
 
-  // 2. We must loop through EVERY container found
-  containers.forEach(container => {
-    
+// Adjust this number to change density. 
+// 0.0002 means 1 flower for every 5000 pixels.
+const density = 0.001; 
+
+containers.forEach(container => {
+    // 1. Get the actual pixel dimensions of the div
+    const rect = container.getBoundingClientRect();
+    const area = rect.width * rect.height;
+
+    // 2. Calculate number of flowers based on area
+    const numberOfFlowers = Math.floor(area * density);
+
     for (let i = 0; i < numberOfFlowers; i++) {
-      const span = document.createElement('span');
-      span.innerText = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
-      
-      // Styling the watermark
-      span.style.position = 'absolute';
-      span.style.fontSize = (Math.random() * 20 + 20) + 'px'; 
-      span.style.opacity = '0.15'; 
-      span.style.zIndex = '0';
-      span.style.pointerEvents = 'none';
-      span.style.userSelect = 'none';
+        const span = document.createElement('span');
+        span.innerText = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
+        
+        span.style.position = 'absolute';
+        span.style.fontSize = (Math.random() * 20 + 20) + 'px'; 
+        span.style.opacity = '0.15'; 
+        span.style.zIndex = '0';
+        span.style.pointerEvents = 'none';
+        span.style.userSelect = 'none';
 
-      // Random position
-      span.style.top = Math.random() * 90 + '%';
-      span.style.left = Math.random() * 90 + '%';
-      span.style.transform = `rotate(${Math.random() * 360}deg)`;
+        // Use 100% to ensure they cover the whole calculated area
+        span.style.top = Math.random() * 100 + '%';
+        span.style.left = Math.random() * 100 + '%';
+        span.style.transform = `rotate(${Math.random() * 360}deg)`;
 
-      container.appendChild(span);
+        container.appendChild(span);
     }
-  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const observerOptions = {
+        threshold: 0.15 // Trigger when 15% of the card is visible
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+                // We stop observing once it has appeared to save browser memory
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Use querySelectorAll to get BOTH divs
+    const targets = document.querySelectorAll('.desktop-row');
+    
+    // Loop through the list and tell the observer to watch each one
+    targets.forEach(target => {
+        observer.observe(target);
+    });
+});
+
     </script>
 </body>
 </html>
