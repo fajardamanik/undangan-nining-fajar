@@ -650,7 +650,7 @@
 		}
 	}, 1000);
 	// Google Sheets Integration
-	const scriptURL = 'https://script.google.com/macros/s/AKfycbzZl1krvOTNA0SMAyrkRccn9Rs1qIMUU_tAN4gJ5gr8QPhAQOUWC1LU2Yaos7yUbkmxIQ/exec';
+	const scriptURL = 'https://script.google.com/macros/s/AKfycbz_kakR_6ST6QCO8VWNQMLX87SNTqqjsdmDwexyy3qdThYu_oMS0vCq94BQp9rt-XV_jg/exec';
 	const form = document.querySelector('#form-ucapan');
 	const btnKirim = document.querySelector('#btnKirim');
 	form.addEventListener('submit', e => {
@@ -673,48 +673,69 @@
 		});
 	});
 
+
+
 	function muatUcapan() {
-		fetch(scriptURL).then(res => res.json()).then(data => {
-			const wadah = document.querySelector('#daftar-ucapan');
-			wadah.innerHTML = '';
-			if(!data || data.length === 0) {
-				wadah.innerHTML = '<p class="text-gray-500 italic text-center">Belum ada ucapan.</p>';
-				return;
-			}
-			// Configuration for the date format
-			const opsiTanggal = {
-				day: 'numeric',
-				month: 'long'
-			};
-			const opsiWaktu = {
-				hour: '2-digit',
-				minute: '2-digit',
-				hour12: false
-			};
-			data.reverse().forEach(row => {
-				let formatWaktu = "";
-				if(row[3]) {
-					const d = new Date(row[3]);
-					// Format: "12 Maret"
-					const tgl = new Intl.DateTimeFormat('id-ID', opsiTanggal).format(d);
-					// Format: "04.08" (changing : to .)
-					const jam = new Intl.DateTimeFormat('id-ID', opsiWaktu).format(d).replace(':', '.');
-					formatWaktu = `${tgl}, ${jam}`;
-				}
-				wadah.innerHTML += `
-                <div class="item-ucapan mb-4 p-3 border-l-4 border-[#719B6E] bg-white shadow-sm">
-    <div class="flex justify-between items-center">
-        <strong class="text-[var(--sisi-komen)] text-sm">${row[0]}</strong>
-        <span class="text-[10px] text-gray-400 font-mono">${formatWaktu}</span>
-    </div>
-    <div class="text-[10px] inline-block px-2 py-0.5 rounded bg-gray-50 text-gray-500 mb-1">
-        ${row[1]}
-    </div>
-    <p class="text-gray-700 text-sm leading-relaxed">${row[2]}</p>
-</div>`;
-			});
-		});
-	}
+    fetch(scriptURL).then(res => res.json()).then(data => {
+        const wadah = document.querySelector('#daftar-ucapan');
+        wadah.innerHTML = '';
+        
+        if(!data || data.length === 0) {
+            wadah.innerHTML = '<p class="text-gray-500 italic text-center">Belum ada ucapan.</p>';
+            return;
+        }
+
+        const opsiTanggal = { day: 'numeric', month: 'long' };
+        const opsiWaktu = { hour: '2-digit', minute: '2-digit', hour12: false };
+
+        data.reverse().forEach(row => {
+            // --- MANUAL APPROVAL LOGIC ---
+            // row[4] refers to the 5th column in your Google Sheet (Column E)
+            // If the cell is NOT 'Approve', we skip this row entirely.
+            if (row[4] !== 'yes') {
+                return; 
+            }
+            // ------------------------------
+
+            let formatWaktu = "";
+            if(row[3]) {
+                const d = new Date(row[3]);
+                const tgl = new Intl.DateTimeFormat('id-ID', opsiTanggal).format(d);
+                const jam = new Intl.DateTimeFormat('id-ID', opsiWaktu).format(d).replace(':', '.');
+                formatWaktu = `${tgl}, ${jam}`;
+            }
+
+            wadah.innerHTML += `
+            <div class="item-ucapan mb-4 p-3 border-l-4 border-[#719B6E] bg-white shadow-sm">
+                <div class="flex justify-between items-center">
+                    <strong class="text-[var(--sisi-komen)] text-sm">${row[0]}</strong>
+                    <span class="text-[10px] text-gray-400 font-mono">${formatWaktu}</span>
+                </div>
+                <div class="text-[10px] inline-block px-2 py-0.5 rounded bg-gray-50 text-gray-500 mb-1">
+                    ${row[1]}
+                </div>
+                <p class="text-gray-700 text-sm leading-relaxed">${row[2]}</p>
+            </div>`;
+        });
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	muatUcapan();
 
 	function kirimWA() {
