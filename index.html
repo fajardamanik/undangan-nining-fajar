@@ -20,18 +20,24 @@
 		--emas-muda: #F9E29C;
 		/* Emas pucat untuk highlight */
 		--emas-tua: #AA8419;
+		--kuning-gading: #FFF8DC;
+		--cream: #FFFDD0;
 		/* Emas gelap untuk bayangan/shadow */
 		/* Gradasi untuk efek mengkilap (Gunakan di background) */
 		--gradient-emas: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA8419);
-		--background: var(--emas-muda);
+		--background: var(--marun);
 		--background-card: var(--putih-gading);
 		--background-countdown: var(--putih-gading);
 		--border: var(--marun);
-		--border-overlay: var(--emas-muda);
-		--border-overlay-outline: var(--emas);
 		--border-outline: var(--marun-muda);
+		--overlay-background: var(--cream);
+		--overlay-border: var(--marun);
+		--overlay-border-outline: var(--marun-muda);
 		--corner-svg: var(--emas-tua);
+		--background-overlay: var(--cream);
 		--sisi-komen: var(--hijau-daun);
+		--card-border: var(--emas-tua);
+		--card-border-outline: var(--emas);
 	}
 	/* Base Styles */
 	
@@ -54,8 +60,8 @@
 		width: 100%;
 		height: 60px;
 		/* Ganti repeat-x menjadi round */
-		background: url('pucuk rebung-marun.svg') round;
-		/*background: url('pucuk rebung-emas.svg') round; */
+		/*background: url('pucuk rebung-marun.svg') round;*/
+		background: url('pucuk rebung-emas.svg') round; 
 		/* Pastikan background-size disesuaikan */
 		background-size: auto 100%;
 		position: fixed;
@@ -72,12 +78,15 @@
 	.pucuk-bawah {
 		bottom: 0;
 	}
+
+
 	/* Overlay System */
 	
 	#overlay-container {
+		overflow: hidden; 
 		position: fixed;
 		top: 0;
-		left: 0;
+		/*left: 0;*/
 		width: 100%;
 		height: 100%;
 		background: rgba(0, 0, 0, 0.85);
@@ -85,15 +94,21 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		text-align: center;
 		transition: 1s ease-in-out;
 	}
 	
 	#overlay-content {
+		padding-left: clamp(30px, 7vw, 70px);
+    padding-right: clamp(30px, 7vw, 70px);
+    overflow: hidden;
+		position: relative;
 		width: 85%;
 		height: 80%;
-		background: linear-gradient(rgba(181, 254, 254, 0.7), rgba(74, 4, 4, 0.7)), url('foto overlay.webp') center/cover;
-		border: 4px solid var(--border-overlay);
-		outline: 1px solid var(--border-overlay-outline);
+		background: var(--overlay-background);
+		/*background: linear-gradient(rgba(181, 254, 254, 0.7), rgba(74, 4, 4, 0.7)), url('foto overlay.webp') center/cover;*/
+		border: 4px solid var(--overlay-border);
+		outline: 1px solid var(--overlay-border-outline);
 		border-radius: 20px;
 		display: flex;
 		flex-direction: column;
@@ -101,7 +116,6 @@
 		justify-content: center;
 		color: white;
 		text-align: center;
-		padding: 20px;
 	}
 	
 	.overlay-hidden {
@@ -109,6 +123,37 @@
 		opacity: 0;
 		pointer-events: none;
 	}
+
+	.overlay-nama {
+		font-family: 'Great Vibes', cursive;
+		font-size: clamp(1.5rem, 6vw, 4rem);
+		color: var(--marun);
+		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+	}
+
+/* Class Dasar untuk Border Vertikal */
+.pucuk-vertikal {
+    position: absolute;
+    top: 0;
+    width: clamp(20px, 5vw, 60px); /* Ukuran disesuaikan agar proporsional di dalam kartu */
+    height: 100%;
+    background-image: url('pucuk rebung-emas-vertikal.svg');
+    background-repeat: repeat-y;
+    background-size: 100% auto;
+    z-index: 10;
+    pointer-events: none;
+}
+.pucuk-kiri-overlay { left: 0; }
+.pucuk-kanan-overlay { right: 0; transform: scaleX(-1); }
+
+/* Responsif untuk HP */
+@media (max-width: 100px) {
+    .pucuk-border {
+        height: 40px; /* Perkecil border agar tidak memenuhi layar HP */
+    }
+}
+
+
 	/* Profile & Typography */
 	
 	.profile-img {
@@ -306,8 +351,8 @@
 		background: var(--background-card);
 		padding: 20px 10px;
 		border-radius: 15px;
-		border: 2px solid var(--border);
-		outline: 2px solid var(--border-outline);
+		border: 5px solid var(--card-border);
+		outline: 5px solid var(--card-border-outline);
 		outline-offset: -4px;
 		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 		text-align: center;
@@ -390,14 +435,20 @@
 	<audio id="mySong" loop>
 		<source src="Track 01.mp3" type="audio/mpeg"> </audio>
 	<div id="overlay-container">
+
+
 		<div id="overlay-content" data-aos="zoom-in">
-			<p style="letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Undangan Pernikahan</p>
-			<div class="nama-vertikal text-4xl font-serif my-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Mayasitthah
+
+		<div class="pucuk-vertikal pucuk-kiri-overlay"></div>
+    	<div class="pucuk-vertikal pucuk-kanan-overlay"></div>
+			<p style="letter-spacing: 2px; color: var(--marun); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Undangan Pernikahan</p>
+			<div class="overlay-nama">Mayasitthah
 				<br>&
 				<br>Fajar</div>
-			<p class="mb-4" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Kepada Bapak/Ibu/Saudara/i</p>
-			<button class="btn" onclick="bukaUndangan()" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); margin-top: 15rem;">BUKA UNDANGAN</button>
+			<p class="mb-4" style="color: var(--marun); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Kepada Bapak/Ibu/Saudara/i</p>
+			<button class="btn" onclick="bukaUndangan()" style="box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);">BUKA UNDANGAN</button>
 		</div>
+
 	</div>
 	<div class="pucuk-border pucuk-atas"></div>
 	<div class="max-w-5xl mx-auto px-6" data-aos="fade-up">
@@ -445,8 +496,9 @@
 	</div>
 	<div class="max-w-5xl mx-auto px-6 mt-10" data-aos="fade-up">
 		<div class="card-section watermark-container" style="position: relative; width: 100%; height: 100%; overflow: hidden;">
-			<div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Menuju Hari Bahagia</div> <img src="janur-hijau.svg" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur">
-			<!-- <img src="janur-emas.svg" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur"> -->
+			<div class="section-name" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Menuju Hari Bahagia</div>
+			<!-- <img src="janur-hijau.svg" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur"> -->
+			<img src="janur-emas.svg" class="w-[120px] h-auto mx-auto block" style="width: 120px; height: auto; z-index: 1;" alt="Janur">
 			<p class="text-justify text-sm text-[#934444] h-auto mx-auto block" style="z-index: 1;"> Tiada yang lebih indah selain dari hikmah yang tersirat dalam perjalanan kami. Syukur alhamdulillah, atas izin Allah Subhanahu Wa Ta'ala, kami dipertemukan dalam saat dan keadaan yang paling sebaik-baiknya menurut kehendak-Nya. </p>
 			<div class="main-name">Sabtu, 28 Maret 2026</div>
 			<div class="countdown-container" style="z-index: 1;">
@@ -529,7 +581,8 @@
 			</div>
 		</div>
 	</div>
-	<footer class="py-12 mt-4 text-center border-t border-gray-100 bg-white/80 backdrop-blur-sm">
+	<footer class="mt-4 text-center border-t border-gray-100 bg-white/80 backdrop-blur-sm">
+	<!-- <footer class="py-12 mt-4 text-center border-t border-gray-100 bg-white/80 backdrop-blur-sm"> -->
 		<div class="mb-2 text-[#934444] opacity-40"> <span class="text-5xl">❦</span> </div>
 		<p class="text-[#934444] font-medium tracking-widest uppercase text-xs"> Maya & Fajar </p>
 		<p class="text-gray text-[14px] tracking-tight"> © 2026 Mayasitthah & Fajar. All Rights Reserved. </p>
@@ -537,6 +590,7 @@
 			<p class="text-[12px] text-black uppercase tracking-tighter italic"> Made with love for our special day </p>
 		</div>
 	</footer>
+	<div class="h-[70px] w-full"></div>
 	<div class="pucuk-border pucuk-bawah"></div>
 	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	<script>
