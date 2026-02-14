@@ -432,13 +432,22 @@
 		background-repeat: repeat;
 	}
 
-	.ampersand {
-    /* Different font for the & */
-    font-family: 'Prata', serif;
-    font-style: italic;
-    font-size: 0.8em; /* Slightly smaller to balance the look */
-    margin-top: 10px; /* Fine-tunes the vertical position */
-  }
+.overlay-logo {
+    display: block;
+    margin: 0 auto 20px auto; /* Centers the logo and adds space below */
+    
+    /* Progressive Scaling */
+    width: 50%;               /* Relative to the parent container */
+    height: auto;             /* Maintains aspect ratio */
+    
+    /* Maximum Constraints */
+    max-width: 300px;         /* Limits how large it can get */
+    max-height: auto;        /* Safety cap for vertical logos */
+    
+    /* Optional: Soft shadow to match your text style */
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.1));
+}
+
 	</style>
 </head>
 
@@ -449,10 +458,9 @@
 
 
 		<div id="overlay-content" data-aos="zoom-in">
-
+			<img src="logo-overlay.png" class="overlay-logo" alt="Wedding Logo">
 		<div class="pucuk-vertikal pucuk-kiri-overlay"></div>
     	<div class="pucuk-vertikal pucuk-kanan-overlay"></div>
-    	<div style="color: var(--marun); font-family: 'Allura', cursive; font-size: 120px;">MF</div>
 			<p style="letter-spacing: 2px; color: var(--marun); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Undangan Pernikahan</p>
 			<div class="overlay-nama">Mayasitthah
 				<br>&
