@@ -73,7 +73,7 @@
     <script>
         const baseUrl = "https://www.maya-fajar.my.id/";
 
-// Fungsi untuk mendapatkan template teks (Tetap sama)
+// Fungsi untuk mendapatkan template teks
 function getTemplate(namaTamu) {
     const encodedNamaURL = encodeURIComponent(namaTamu).replace(/%20/g, '+');
     const fullUrl = baseUrl + "?to=" + encodedNamaURL;
@@ -108,7 +108,35 @@ Keluarga Besar
 Maya & Fajar`;
 }
 
-// Fungsi Generate (Tetap sama strukturnya)
+// 1. Fungsi untuk Tombol SATUAN (Buat & Kirim Pesan)
+function generateSingle() {
+    const nama = document.getElementById('inputNama').value.trim();
+    const wa = document.getElementById('inputWA').value.trim();
+    
+    if (!nama) {
+        alert("Mohon masukkan nama tamu terlebih dahulu.");
+        return;
+    }
+
+    const pesan = getTemplate(nama);
+    
+    // Jalankan fungsi copy otomatis
+    executeCopy(pesan);
+
+    // Format nomor WA
+    let phone = wa.replace(/\D/g, '');
+    if (phone.startsWith('0')) phone = '62' + phone.slice(1);
+
+    // Buka WhatsApp
+    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(pesan)}`;
+    window.open(waUrl, '_blank');
+
+    // Beri tanda berhasil
+    const resultDiv = document.getElementById('singleResult');
+    if(resultDiv) resultDiv.classList.remove('hidden');
+}
+
+// 2. Fungsi untuk Tombol MASSAL
 function generateBulk() {
     const lines = document.getElementById('bulkNames').value.split('\n');
     const container = document.getElementById('bulkArea');
@@ -143,44 +171,45 @@ function generateBulk() {
     });
 }
 
-// FUNGSI COPY PERBAIKAN (Gunakan metode seleksi textarea tersembunyi)
+// 3. Fungsi Inti Copy (Dipakai Masal)
 function copyManual(btn) {
     const rawData = btn.getAttribute('data-raw-text');
     const textToCopy = decodeURIComponent(rawData);
-
-    // Buat elemen textarea sementara untuk proses seleksi
-    const textArea = document.createElement("textarea");
-    textArea.value = textToCopy;
     
-    // Pastikan tidak terlihat tapi tetap bisa di-select oleh browser
+    if(executeCopy(textToCopy)) {
+        const originalLabel = btn.innerText;
+        btn.innerText = "Copied!";
+        btn.style.backgroundColor = "#dcfce7";
+        btn.style.color = "#166534";
+        setTimeout(() => {
+            btn.innerText = originalLabel;
+            btn.style.backgroundColor = "";
+            btn.style.color = "";
+        }, 2000);
+    }
+}
+
+// 4. Fungsi Eksekusi Copy ke Clipboard (Paling Stabil)
+function executeCopy(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
     textArea.style.position = "fixed";
     textArea.style.left = "-9999px";
     textArea.style.top = "0";
     document.body.appendChild(textArea);
-    
     textArea.focus();
     textArea.select();
-    textArea.setSelectionRange(0, 99999); // Untuk mobile
+    textArea.setSelectionRange(0, 99999);
 
+    let success = false;
     try {
-        const successful = document.execCommand('copy');
-        if (successful) {
-            const originalLabel = btn.innerText;
-            btn.innerText = "Copied!";
-            btn.style.backgroundColor = "#dcfce7"; // Hijau muda
-            btn.style.color = "#166534"; // Hijau tua
-            
-            setTimeout(() => {
-                btn.innerText = originalLabel;
-                btn.style.backgroundColor = "";
-                btn.style.color = "";
-            }, 2000);
-        }
+        success = document.execCommand('copy');
     } catch (err) {
-        alert("Gagal copy otomatis, silakan copy manual.");
+        console.error("Gagal menyalin", err);
     }
 
     document.body.removeChild(textArea);
+    return success;
 }
     </script>
 </body>
