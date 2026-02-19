@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Undangan - Maya & Fajar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #fdf2f2; }
+        .card { background: white; border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="p-4 md:p-10">
+    <div class="max-w-2xl mx-auto space-y-8">
+        
+        <div class="card p-6 md:p-8 border border-rose-100">
+            <h2 class="text-2xl font-bold mb-6 text-rose-800 flex items-center gap-2">
+                <span>💌</span> Generator Satuan
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nama Tamu:</label>
+                    <input type="text" id="inputNama" placeholder="Contoh: Abang Eza & Keluarga" 
+                           class="w-full p-3 border-2 border-rose-50 rounded-xl focus:border-rose-300 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Nomor WA (Opsional):</label>
+                    <input type="tel" id="inputWA" placeholder="0812xxxx" 
+                           class="w-full p-3 border-2 border-rose-50 rounded-xl focus:border-rose-300 outline-none transition-all">
+                </div>
+            </div>
+            
+            <button onclick="generateSingle()" 
+                    class="w-full bg-rose-600 text-white font-bold py-4 rounded-xl hover:bg-rose-700 shadow-lg shadow-rose-200 transition-all active:scale-95">
+                BUAT & KIRIM PESAN
+            </button>
+
+            <div id="singleResult" class="mt-6 hidden p-4 bg-rose-50 rounded-xl animate-pulse">
+                <p class="text-xs text-rose-700 font-medium">Link & Pesan berhasil disiapkan!</p>
+            </div>
+        </div>
+
+        <div class="card p-6 md:p-8 border border-rose-100">
+            <h2 class="text-2xl font-bold mb-2 text-rose-800 flex items-center gap-2">
+                <span>📋</span> Input Massal
+            </h2>
+            <p class="text-xs text-gray-500 mb-6">Gunakan ini jika ingin mengundang banyak orang sekaligus. Masukkan 1 nama per baris.</p>
+            
+            <textarea id="bulkNames" rows="5" placeholder="Contoh:&#10;Abang Eza & Keluarga&#10;Teman Kantor&#10;Keluarga Pak RT" 
+                      class="w-full p-4 border-2 border-rose-50 rounded-xl focus:border-rose-300 outline-none transition-all mb-4"></textarea>
+            
+            <button onclick="generateBulk()" 
+                    class="w-full bg-slate-800 text-white font-bold py-3 rounded-xl hover:bg-slate-900 transition-all">
+                GENERATE DAFTAR NAMA
+            </button>
+
+            <div id="bulkArea" class="mt-8 space-y-3">
+                </div>
+        </div>
+
+    </div>
+
+    <script>
+        const baseUrl = "https://www.maya-fajar.my.id/";
+
+        function formatPhone(phone) {
+            if (!phone) return "";
+            let formatted = phone.replace(/\D/g, '');
+            if (formatted.startsWith('0')) formatted = '62' + formatted.slice(1);
+            return formatted;
+        }
+
+        function getTemplate(namaTamu) {
+            // Encode nama untuk URL agar simbol & aman
+            const encodedNamaURL = encodeURIComponent(namaTamu).replace(/%20/g, '+');
+            const fullUrl = baseUrl + "?to=" + encodedNamaURL;
+
+            return `Assalamu'alaikum Warahmatullahi Wabarakaatuh
+
+Maha Suci Allah SWT dengan segala Kebesaran-Nya yang telah menciptakan makhluk-Nya berpasang-pasangan, melalui pesan ini kami ingin menyampaikan kabar bahagia atas pernikahan kami:
+
+*Mayasitthah Ramaningsih*
+&
+*Fajar Raymond Damanik*
+
+Yang InsyaAllah akan diselenggarakan pada:
+
+Hari, Tanggal    : Sabtu, 28 Maret 2026
+Akad    : 08.00 WIB
+Resepsi    : 12:30 WIB - Selesai
+Tempat    : Rumah Mempelai Wanita.
+        Jalan Rantau 3 no. 3A, Simpang 3,
+        Kec. Bukit Raya, Kota Pekanbaru,
+        Riau
+
+Untuk infomasi lebih lanjut silahkan kunjungi link berikut:
+${fullUrl}
+
+Kami berharap dan memohon do'a restu, semoga keridhoan atas do'a tersebut menjadi keberkahan untuk pernikahan kami dan terbangun keluarga yang sakinnah mawadah warrahmah.
+Atas do'a dari Bapak/Ibu/Saudara/i, kami ucapkan terima kasih.
+
+Wassalamu'alaikum Warahmatullahi Wabarakaatuh
+
+Keluarga Besar
+Maya & Fajar`;
+        }
+
+        function generateSingle() {
+            const nama = document.getElementById('inputNama').value.trim();
+            const wa = document.getElementById('inputWA').value.trim();
+            
+            if (!nama) return alert("Masukkan nama tamu!");
+
+            const pesan = getTemplate(nama);
+            const phone = formatPhone(wa);
+            
+            // Salin ke clipboard
+            navigator.clipboard.writeText(pesan);
+            
+            // Buka WA
+            const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(pesan)}`;
+            window.open(waUrl, '_blank');
+            
+            document.getElementById('singleResult').classList.remove('hidden');
+        }
+
+        function generateBulk() {
+            const lines = document.getElementById('bulkNames').value.split('\n');
+            const container = document.getElementById('bulkArea');
+            container.innerHTML = '<h3 class="font-bold text-gray-700 mb-4">Daftar Link Undangan:</h3>';
+
+            lines.forEach(line => {
+                const nama = line.trim();
+                if (nama.length > 0) {
+                    const pesan = getTemplate(nama);
+                    const encodedPesan = encodeURIComponent(pesan);
+                    
+                    const div = document.createElement('div');
+                    div.className = "flex items-center justify-between p-4 bg-white border border-rose-100 rounded-xl shadow-sm hover:border-rose-300 transition-all";
+                    div.innerHTML = `
+                        <div class="overflow-hidden mr-2">
+                            <p class="font-bold text-rose-900 truncate">${nama}</p>
+                            <p class="text-[10px] text-gray-400 truncate">${baseUrl}?to=...</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="copyText('${encodedPesan}')" class="bg-gray-100 text-gray-600 p-2 rounded-lg text-xs font-bold hover:bg-gray-200">Copy</button>
+                            <a href="https://wa.me/?text=${encodedPesan}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-green-600 transition-all">Kirim WA</a>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+        }
+
+        function copyText(encodedText) {
+            const decoded = decodeURIComponent(encodedText);
+            navigator.clipboard.writeText(decoded);
+            alert("Pesan undangan berhasil disalin!");
+        }
+    </script>
+</body>
+</html>
