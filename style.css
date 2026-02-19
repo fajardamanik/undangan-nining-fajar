@@ -1,0 +1,85 @@
+:root { 
+    --marun: #934444; 
+    --marun-muda: #C27A7A; 
+    --putih-gading: #FFFFF0; 
+    --hijau-daun: #719B6E; 
+    --emas: #D4AF37; 
+    --emas-muda: #F9E29C; 
+    --emas-tua: #AA8419; 
+    --kuning-gading: #FFF8DC; 
+    --cream: #FFFDD0; 
+    --gradient-emas: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA8419); 
+    --background: var(--marun); 
+    --background-card: var(--putih-gading); 
+    --background-countdown: var(--putih-gading); 
+    --border: var(--marun); 
+    --border-outline: var(--marun-muda); 
+    --overlay-background: var(--cream); 
+    --overlay-border: var(--marun); 
+    --overlay-border-outline: var(--marun-muda); 
+    --corner-svg: var(--emas-tua); 
+    --background-overlay: var(--cream); 
+    --sisi-komen: var(--hijau-daun); 
+    --card-border: var(--emas-tua); 
+    --card-border-outline: var(--emas); 
+}
+
+body { background-color: var(--background); font-family: 'Poppins', sans-serif; overflow-x: hidden; padding-top: 70px; padding-bottom: 70px; }
+body.overflow-hidden { overflow: hidden; height: 100vh; }
+
+.pucuk-border { width: 100%; height: 60px; background: url('pucuk rebung-emas.svg') round; background-size: auto 100%; position: fixed; left: 0; z-index: 1000; }
+.pucuk-atas { top: 0; transform: scaleY(-1); }
+.pucuk-bawah { bottom: 0; }
+
+#overlay-container { overflow: hidden; position: fixed; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 9999; display: flex; align-items: center; justify-content: center; text-align: center; transition: 1s ease-in-out; }
+#overlay-content { padding-left: clamp(30px, 7vw, 70px); padding-right: clamp(30px, 7vw, 70px); overflow: hidden; position: relative; width: 85%; height: 80%; background: var(--overlay-background); border: 4px solid var(--overlay-border); outline: 1px solid var(--overlay-border-outline); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; }
+.overlay-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+.overlay-nama { font-family: 'Great Vibes', cursive; font-size: clamp(1.5rem, 6vw, 4rem); color: var(--marun); text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
+
+.pucuk-vertikal { position: absolute; top: 0; width: clamp(20px, 5vw, 60px); height: 100%; background-image: url('pucuk rebung-emas-vertikal.svg'); background-repeat: repeat-y; background-size: 100% auto; z-index: 10; pointer-events: none; }
+.pucuk-kiri-overlay { left: 0; }
+.pucuk-kanan-overlay { right: 0; transform: scaleX(-1); }
+
+@media (max-width: 100px) { .pucuk-border { height: 40px; } }
+
+.profile-img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 3px solid var(--border); outline: 2px solid var(--border-outline); outline-offset: -4px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); z-index: 1; }
+.section-name { font-family: 'Great Vibes', cursive; font-size: clamp(1.5rem, 6vw, 4rem); color: var(--marun); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); z-index: 1; }
+.main-name { font-weight: bold; font-size: clamp(1rem, 4vw, 2rem); color: var(--marun); z-index: 1; }
+.parent-name { font-size: 0.9rem; color: #666; font-style: italic; z-index: 1; }
+
+.countdown-container { display: flex; justify-content: center; gap: 10px; }
+.countdown-item { background: var(--background-countdown); padding: 10px; border-radius: 8px; border: 2px solid var(--border); min-width: 70px; text-align: center; color: var(--border); box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); }
+.countdown-item span { display: block; font-size: 1.5rem; font-weight: bold; }
+
+.acara-box { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; }
+.acara-item { background: white; padding: 25px; border-radius: 20px; border: 2px solid var(--border); outline: 2px solid var(--border-outline); width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 1; }
+.icon-wrapper { width: 60px; height: 60px; }
+
+.map-responsive { border-radius: 15px; overflow: hidden; border: 2px solid var(--border); width: 100%; max-width: 800px; aspect-ratio: 8 / 6; margin: 20px auto; z-index: 1; }
+
+.btn { background: var(--border); color: white; padding: 14px 30px; border-radius: 50px; font-weight: bold; transition: 0.3s; display: block; margin: 15px auto; width: 100%; max-width: 250px; text-align: center; cursor: pointer; z-index: 1; }
+.btn:hover { background: #b8952d; transform: scale(1.05); z-index: 1; }
+
+.rsvp-form input, .rsvp-form select, .rsvp-form textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; z-index: 1; }
+#daftar-ucapan { width: 100%; max-height: 400px; overflow-y: auto; text-align: left; margin-top: 20px; z-index: 1; }
+.item-ucapan { background: #f8f8f8; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid var(--marun); z-index: 1; }
+
+@media (min-width: 100px) { 
+    .desktop-row { opacity: 0; transform: translateX(-50px); transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform, opacity; } 
+    .slide-left { transform: translateX(-100px); } 
+    .slide-right { transform: translateX(100px); } 
+    .desktop-row.appear { transform: translateX(0); opacity: 1; } 
+}
+
+.card-section { background: var(--background-card); padding: 20px 10px; border-radius: 15px; border: 5px solid var(--card-border); outline: 5px solid var(--card-border-outline); outline-offset: -4px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); text-align: center; gap: 1rem; display: flex; flex-direction: column; }
+
+.corner-svg { position: absolute; width: 80px; height: 80px; fill: var(--corner-svg); color: var(--corner-svg); pointer-events: none; z-index: 1; }
+.top-left { top: 1px; left: 1px; }
+.top-right { top: 1px; right: 1px; transform: scaleX(-1); }
+.bottom-left { bottom: 1px; left: 1px; transform: scaleY(-1); }
+.bottom-right { bottom: 1px; right: 1px; transform: scale(-1); }
+
+.ayah-container { position: relative; display: inline-flex; align-items: center; justify-content: center; font-family: serif; }
+.ayah-number { position: absolute; font-size: 0.5em; margin-top: 2px; }
+
+.overlay-logo { display: block; margin: 0 auto 20px auto; width: 50%; height: auto; max-width: 300px; filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.1)); }
