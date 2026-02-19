@@ -12,6 +12,14 @@
     </style>
 </head>
 <body class="p-4 md:p-10">
+    <div class="max-w-2xl mx-auto mb-4">
+        <a href="index.html" class="inline-flex items-center gap-2 text-rose-400 hover:text-rose-600 transition-colors text-sm font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kembali ke Halaman Undangan
+        </a>
+    </div>
     <div class="max-w-2xl mx-auto space-y-8">
         
         <div class="card p-6 md:p-8 border border-rose-100">
@@ -65,19 +73,12 @@
     <script>
         const baseUrl = "https://www.maya-fajar.my.id/";
 
-        function formatPhone(phone) {
-            if (!phone) return "";
-            let formatted = phone.replace(/\D/g, '');
-            if (formatted.startsWith('0')) formatted = '62' + formatted.slice(1);
-            return formatted;
-        }
+// Fungsi untuk mendapatkan template teks (Tetap sama)
+function getTemplate(namaTamu) {
+    const encodedNamaURL = encodeURIComponent(namaTamu).replace(/%20/g, '+');
+    const fullUrl = baseUrl + "?to=" + encodedNamaURL;
 
-        function getTemplate(namaTamu) {
-            // Encode nama untuk URL agar simbol & aman
-            const encodedNamaURL = encodeURIComponent(namaTamu).replace(/%20/g, '+');
-            const fullUrl = baseUrl + "?to=" + encodedNamaURL;
-
-            return `Assalamu'alaikum Warahmatullahi Wabarakaatuh
+    return `Assalamu'alaikum Warahmatullahi Wabarakaatuh
 
 Maha Suci Allah SWT dengan segala Kebesaran-Nya yang telah menciptakan makhluk-Nya berpasang-pasangan, melalui pesan ini kami ingin menyampaikan kabar bahagia atas pernikahan kami:
 
@@ -105,60 +106,82 @@ Wassalamu'alaikum Warahmatullahi Wabarakaatuh
 
 Keluarga Besar
 Maya & Fajar`;
-        }
+}
 
-        function generateSingle() {
-            const nama = document.getElementById('inputNama').value.trim();
-            const wa = document.getElementById('inputWA').value.trim();
-            
-            if (!nama) return alert("Masukkan nama tamu!");
+// Fungsi Generate (Tetap sama strukturnya)
+function generateBulk() {
+    const lines = document.getElementById('bulkNames').value.split('\n');
+    const container = document.getElementById('bulkArea');
+    container.innerHTML = '<h3 class="font-bold text-gray-700 mb-4">Daftar Link:</h3>';
 
+    lines.forEach((line) => {
+        const nama = line.trim();
+        if (nama.length > 0) {
             const pesan = getTemplate(nama);
-            const phone = formatPhone(wa);
+            const encodedPesan = encodeURIComponent(pesan);
             
-            // Salin ke clipboard
-            navigator.clipboard.writeText(pesan);
+            const div = document.createElement('div');
+            div.className = "flex items-center justify-between p-4 bg-white border border-rose-100 rounded-xl shadow-sm mb-3";
+            div.innerHTML = `
+                <div class="overflow-hidden mr-2">
+                    <p class="font-bold text-rose-900 truncate">${nama}</p>
+                </div>
+                <div class="flex gap-2">
+                    <button 
+                        class="bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-xs font-bold hover:bg-gray-200"
+                        onclick="copyManual(this)" 
+                        data-raw-text="${encodedPesan}">
+                        Copy
+                    </button>
+                    <a href="https://wa.me/?text=${encodedPesan}" target="_blank" class="bg-green-500 text-white px-3 py-2 rounded-lg text-xs font-bold hover:bg-green-600">
+                        WA
+                    </a>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+    });
+}
+
+// FUNGSI COPY PERBAIKAN (Gunakan metode seleksi textarea tersembunyi)
+function copyManual(btn) {
+    const rawData = btn.getAttribute('data-raw-text');
+    const textToCopy = decodeURIComponent(rawData);
+
+    // Buat elemen textarea sementara untuk proses seleksi
+    const textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    
+    // Pastikan tidak terlihat tapi tetap bisa di-select oleh browser
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "0";
+    document.body.appendChild(textArea);
+    
+    textArea.focus();
+    textArea.select();
+    textArea.setSelectionRange(0, 99999); // Untuk mobile
+
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            const originalLabel = btn.innerText;
+            btn.innerText = "Copied!";
+            btn.style.backgroundColor = "#dcfce7"; // Hijau muda
+            btn.style.color = "#166534"; // Hijau tua
             
-            // Buka WA
-            const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(pesan)}`;
-            window.open(waUrl, '_blank');
-            
-            document.getElementById('singleResult').classList.remove('hidden');
+            setTimeout(() => {
+                btn.innerText = originalLabel;
+                btn.style.backgroundColor = "";
+                btn.style.color = "";
+            }, 2000);
         }
+    } catch (err) {
+        alert("Gagal copy otomatis, silakan copy manual.");
+    }
 
-        function generateBulk() {
-            const lines = document.getElementById('bulkNames').value.split('\n');
-            const container = document.getElementById('bulkArea');
-            container.innerHTML = '<h3 class="font-bold text-gray-700 mb-4">Daftar Link Undangan:</h3>';
-
-            lines.forEach(line => {
-                const nama = line.trim();
-                if (nama.length > 0) {
-                    const pesan = getTemplate(nama);
-                    const encodedPesan = encodeURIComponent(pesan);
-                    
-                    const div = document.createElement('div');
-                    div.className = "flex items-center justify-between p-4 bg-white border border-rose-100 rounded-xl shadow-sm hover:border-rose-300 transition-all";
-                    div.innerHTML = `
-                        <div class="overflow-hidden mr-2">
-                            <p class="font-bold text-rose-900 truncate">${nama}</p>
-                            <p class="text-[10px] text-gray-400 truncate">${baseUrl}?to=...</p>
-                        </div>
-                        <div class="flex gap-2">
-                            <button onclick="copyText('${encodedPesan}')" class="bg-gray-100 text-gray-600 p-2 rounded-lg text-xs font-bold hover:bg-gray-200">Copy</button>
-                            <a href="https://wa.me/?text=${encodedPesan}" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-green-600 transition-all">Kirim WA</a>
-                        </div>
-                    `;
-                    container.appendChild(div);
-                }
-            });
-        }
-
-        function copyText(encodedText) {
-            const decoded = decodeURIComponent(encodedText);
-            navigator.clipboard.writeText(decoded);
-            alert("Pesan undangan berhasil disalin!");
-        }
+    document.body.removeChild(textArea);
+}
     </script>
 </body>
 </html>
